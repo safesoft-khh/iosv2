@@ -99,6 +99,7 @@ site:
   code: "CAUH"
   link: "https://www.caumc.or.kr/"
   company-title: "Chung-Ang University Hospital"
+  company-kor-title: "중앙대학교병원"
   footer-msg: "Copyright(c) CHUNG-ANG UNIVERSITY HEALTHCARE SYSTEM, All Rights Reserved."
   image-logo: "https://ch.cauhs.or.kr/images/main_re_logo.gif"
   login-image: "/static/img/login_image.jpg"
