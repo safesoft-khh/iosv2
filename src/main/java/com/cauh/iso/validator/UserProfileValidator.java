@@ -37,5 +37,9 @@ public class UserProfileValidator implements Validator {
         if(ObjectUtils.isEmpty(account.getName())) {
             errors.rejectValue("name", "message.name.required", "이름을 입력해주세요.");
         }
+
+        if(ObjectUtils.isEmpty(account.getEmail())) {
+            errors.rejectValue("email", "message.email.required", "이메일을 입력해주세요.");
+        }
     }
 }
