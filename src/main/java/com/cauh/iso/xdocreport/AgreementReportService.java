@@ -9,6 +9,7 @@ import com.cauh.iso.xdocreport.dto.AgreementDTO;
 import com.groupdocs.assembly.DataSourceInfo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
@@ -27,6 +28,8 @@ public class AgreementReportService {
 //    private IXDocReport report;
     private final DocumentAssembly documentAssembly;
 
+    @Value("${site.code}")
+    private String siteCode;
 
 //    @PostConstruct
 //    public void init() throws Exception {
@@ -70,7 +73,7 @@ public class AgreementReportService {
 
                 if (!StringUtils.isEmpty(agreement.getInternalUser().getCommaJobTitle())) {
                     roleAndCompany.append(agreement.getInternalUser().getCommaJobTitle());
-                    roleAndCompany.append("/").append("CAUH");
+                    roleAndCompany.append("/").append(siteCode);
                 }
 
                 dto.setCustomerName(agreement.getInternalUser().getName());
