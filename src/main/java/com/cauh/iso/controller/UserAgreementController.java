@@ -62,6 +62,9 @@ public class UserAgreementController {
     @Value("${site.company-title}")
     private String siteCompanyTitle;
 
+    @Value("${site.company-kor-title}")
+    private String siteCompanyKorTitle;
+
     @GetMapping("/please-enter-your-access-code")
     public String auth() {
         return "common/auth";
@@ -180,8 +183,9 @@ public class UserAgreementController {
 
         model.addAttribute("confidentialityPledge", confidentialityPledge);
 
-        //2021.03.16 - 이미지 로고 공통화
+        //2021.03.16 - 이미지 로고 / 기업명 공통화
         model.addAttribute("imageLogo", imageLogo);
+        model.addAttribute("siteCompanyKorTitle", siteCompanyKorTitle);
 
         return "common/confientialityPledge";
     }

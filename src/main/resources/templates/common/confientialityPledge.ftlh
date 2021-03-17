@@ -74,9 +74,9 @@
                     <div class="mar-top mar-btm text-bold">
                         본인은 <span class="text-info">ISO Management System</span>에서 열람, 기록 및 관리되는 문서들<br>
                         (예, 표준작업지침서, 관련 서식, ISO 관련 규정, 교육 기록 등)이<br>
-                        중앙대학교병원의 자산으로 비밀사항임을 이해 합니다.<br><br>
+                        ${siteCompanyKorTitle}의 자산으로 비밀사항임을 이해 합니다.<br><br>
                         본인은 <span class="text-info">ISO Management System</span>에서 열람, 기록 및 관리되는 문서들을<br>
-                        중앙대학교병원의 허가 또는 승인없이 제 3자에게 복사, 제공 및 배포하지 않을 것입니다.<br>
+                        ${siteCompanyKorTitle}의 허가 또는 승인없이 제 3자에게 복사, 제공 및 배포하지 않을 것입니다.<br>
                         본 서약에 동의함으로써 본인은 정보의 비밀을 준수할 것임을 서약 합니다.
                     </div>
 <#--                    <div class="mar-btm">The Discloser (KCSG) intends to disclose proprietary information and data <span class="text-bold"><’The Confidential Information’></span> relating to KCSG Standard Operating Procedures (SOP) to the Recipient for the purpose as below (<span style="font-style: italic">Please tick where applicable</span>).</div>-->
