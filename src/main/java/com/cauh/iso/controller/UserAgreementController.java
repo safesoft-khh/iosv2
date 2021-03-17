@@ -56,6 +56,9 @@ public class UserAgreementController {
     @Value("${site.image-logo}")
     private String imageLogo;
 
+    @Value("${site.company-title}")
+    private String siteCompanyTitle;
+
     @GetMapping("/please-enter-your-access-code")
     public String auth() {
         return "common/auth";
@@ -114,8 +117,9 @@ public class UserAgreementController {
         model.addAttribute("agreeMaps", agreementPersonalInformationService.getAgreeMap());
         model.addAttribute("agreementPersonalInformation", agreementPersonalInformation);
 
-        //2021.03.16 - 이미지 로고 공통화
+        //2021.03.16 - 이미지 로고 / 회사 이름 공통화
         model.addAttribute("imageLogo", imageLogo);
+        model.addAttribute("siteCompanyTitle", siteCompanyTitle);
 
         return "common/agreementCollectUse";
     }

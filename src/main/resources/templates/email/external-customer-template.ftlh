@@ -35,7 +35,7 @@
                                             <table class="invoice" style="margin: 25px auto; text-align: left; width: 100%;">
                                                 <tr>
                                                     <td style="padding: 5px 0;">
-                                                        Welcome to Chung-Ang University Hospital ISO Management System.<br/>
+                                                        Welcome to ${siteCompanyTitle} ISO Management System.<br/>
                                                         You have been invited to access the ISO Management System.<br/>
                                                         In order to use the ISO Management System, you will need the
                                                         following software;<br/>

@@ -36,6 +36,9 @@ public class MailServiceImpl implements MailService {
     @Value("${server.domain}")
     private String domain;
 
+    @Value("${site.footer-msg}")
+    private String footerMsg;
+
     @Value("${mail.notice.name}")
     private String emailName;
 
@@ -52,6 +55,7 @@ public class MailServiceImpl implements MailService {
                 model = new HashMap<>();
             }
             model.put("domain", domain);
+            model.put("footerMsg", footerMsg);
 
             String html = FreeMarkerTemplateUtils.processTemplateIntoString(template, model);
 

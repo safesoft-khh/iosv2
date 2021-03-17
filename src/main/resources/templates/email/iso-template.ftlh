@@ -38,7 +38,7 @@
                         <tr>
                             <td class="aligncenter" style="text-align: center;">
                                 <small>본 이메일의 발신자 주소는 발신전용으로 회신되지 않습니다.<br/>
-                                    COPYRIGHT© Chung-Ang University Hospital. ALL RIGHTS RESERVED.
+                                    ${footerMsg}
                                 </small>approval/box/requester
                             </td>
                         </tr>

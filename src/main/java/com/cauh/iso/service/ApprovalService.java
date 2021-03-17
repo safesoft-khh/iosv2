@@ -11,6 +11,7 @@ import com.cauh.iso.xdocreport.dto.TrainingDeviationLogDTO;
 import com.querydsl.core.BooleanBuilder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -51,6 +52,9 @@ public class ApprovalService {
     private final DisclosureISOTrainingLogRepository disclosureISOTrainingLogRepository;
 //    @PersistenceContext
 //    private EntityManager entityManager;
+
+    @Value("${site.company-title}")
+    private String siteCompanyTitle;
 
     public void delete(Integer id) {
         Approval approval = findById(id).get();
@@ -794,12 +798,14 @@ public class ApprovalService {
     private void sendEmailExternalCustomer(Approval approval) {
         SOPDisclosureRequestForm sopDisclosureRequestForm = approval.getSopDisclosureRequestForm();
 
-
-
         for(ExternalCustomer customer : sopDisclosureRequestForm.getExternalCustomers()) {
             HashMap<String, Object> model = new HashMap<>();
             model.put("form", sopDisclosureRequestForm);
             model.put("customer", customer);
+
+            //2021-03-17 YSH :: 회사명 공통 작업
+            model.put("siteCompanyTitle", siteCompanyTitle);
+
             Mail mail = new Mail();
             mail.setTo(new String[]{customer.getEmail()});
             mail.setSubject("[CAUH] ISO MS Invitation");

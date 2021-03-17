@@ -79,6 +79,8 @@ public class TrainingController {
     private final TrainingService trainingService;
     private final TrainingAccessLogService trainingAccessLogService;
 
+    @Value("${site.company-title}")
+    private String siteCompanyTitle;
 
 //    @Value("${gw.userTbl}")
 //    private String gwUserTbl;
@@ -383,6 +385,10 @@ public class TrainingController {
         builder.and(qTrainingLog.status.eq(TrainingStatus.COMPLETED));
 
         model.addAttribute("trainingLog", trainingLogService.findAll(builder, pageable));
+
+        //2021-03-17. 설정된 회사명 사용
+        model.addAttribute("siteCompanyTitle", siteCompanyTitle);
+
         return "training/trainingLog";
     }
 

@@ -80,8 +80,11 @@ public class ExternalCustomerController {
     private final DocumentViewer documentViewer;
     private final CategoryService categoryService;
 
-    @Value("${file.binder-dir}")
-    private String bindPath;
+//    @Value("${file.binder-dir}")
+//    private String bindPath;
+
+    @Value("${site.company-title}")
+    private String siteCompanyTitle;
 
     @GetMapping("/external/notice")
     public String externNoticeList(@PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC, size = 15) Pageable pageable, Model model){
@@ -292,6 +295,10 @@ public class ExternalCustomerController {
                     builder.and(qisoTrainingLog.status.eq(TrainingStatus.COMPLETED));
 
                     model.addAttribute("isoTrainingLog", isoTrainingLogRepository.findAll(builder, pageable));
+
+                    //2021-03-17 YSH :: 회사명 공통작업
+                    model.addAttribute("siteCompanyTitle", siteCompanyTitle);
+
                 } else {
                     attributes.addFlashAttribute("messageType", "warning");
                     attributes.addFlashAttribute("message", "열람할 수 없는 User입니다.");
@@ -337,6 +344,10 @@ public class ExternalCustomerController {
                     builder.and(qTrainingLog.status.eq(TrainingStatus.COMPLETED));
 
                     model.addAttribute("trainingLog", trainingLogRepository.findAll(builder, pageable));
+
+                    //2021-03-17 YSH :: 회사명 공통작업
+                    model.addAttribute("siteCompanyTitle", siteCompanyTitle);
+
                 } else {
                     attributes.addFlashAttribute("messageType", "warning");
                     attributes.addFlashAttribute("message", "열람할 수 없는 User입니다.");

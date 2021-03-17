@@ -66,6 +66,9 @@ public class ISOTrainingController {
     private final TrainingAccessLogService trainingAccessLogService;
     private final FileStorageService fileStorageService;
 
+    @Value("${site.company-title}")
+    private String siteCompanyTitle;
+
     @GetMapping("/training/iso/mytraining")
     public String myTraining(@PageableDefault(size = 25) Pageable pageable, @CurrentUser Account user, Model model) {
 
@@ -435,6 +438,10 @@ public class ISOTrainingController {
         builder.and(qIsoTrainingLog.status.eq(TrainingStatus.COMPLETED));
 
         model.addAttribute("isoTrainingLog", isoTrainingLogService.findAll(builder, pageable));
+
+        //2021-03-17. 설정된 회사명 사용
+        model.addAttribute("siteCompanyTitle", siteCompanyTitle);
+
         return "iso/training/trainingLog";
 
     }
