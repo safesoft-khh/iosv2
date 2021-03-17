@@ -121,7 +121,6 @@ sop:
 cert:
   header: "CAUH-ISO 14155 GCP-"
 
-
 #초 분 시 일 월 요일 연도
 scheduler:
   sop-status-update: 0 5 0 * * * #매일 12시 5분 갱신
