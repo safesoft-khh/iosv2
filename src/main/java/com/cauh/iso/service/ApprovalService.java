@@ -811,7 +811,7 @@ public class ApprovalService {
 
             Mail mail = new Mail();
             mail.setTo(new String[]{customer.getEmail()});
-            mail.setSubject("[CAUH] ISO MS Invitation");
+            mail.setSubject(String.format("[%s] ISO MS Invitation", siteCode));
             mail.setModel(model);
             mail.setTemplateName("external-customer-template");
 

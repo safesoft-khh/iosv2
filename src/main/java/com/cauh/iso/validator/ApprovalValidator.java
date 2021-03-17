@@ -8,6 +8,7 @@ import com.cauh.iso.service.DocumentService;
 import com.cauh.iso.utils.NumberUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
@@ -23,6 +24,10 @@ import java.util.regex.Pattern;
 public class ApprovalValidator implements Validator {
     private final DocumentService documentService;
     private final CategoryService categoryService;
+
+    @Value("${sop.prefix}")
+    private String sopPrefix;
+
     @Override
     public boolean supports(Class<?> aClass) {
         return false;
@@ -67,8 +72,8 @@ public class ApprovalValidator implements Validator {
                     } else {
                         sop.setDocId(sop.getDocId().toUpperCase());
 
-                        if(!sop.getDocId().startsWith("CAUH-")) {
-                            errors.rejectValue("sopRdRequestForm.sopDevelopmentDocs["+idx+"].docId", "message.required", "Document Id는 \"CAUH-\"로 시작 되어야 합니다.");
+                        if(!sop.getDocId().startsWith(sopPrefix)) {
+                            errors.rejectValue("sopRdRequestForm.sopDevelopmentDocs["+idx+"].docId", "message.required", "Document Id는 \"" + sopPrefix + "\"로 시작 되어야 합니다.");
                         } else {
                             String categoryAndNo = sop.getDocId().substring(sop.getDocId().indexOf("-") + 1);
                             log.debug("@categoryAndNo : {}", categoryAndNo);
@@ -119,13 +124,13 @@ public class ApprovalValidator implements Validator {
                     } else {
                         rd.setDocId(rd.getDocId().toUpperCase());
 
-                        if(!rd.getDocId().startsWith("CAUH-")) {
-                            errors.rejectValue("sopRdRequestForm.rdDevelopmentDocs[" + idx + "].docId", "message.required", "Document Id는 \"CAUH-\"로 시작 되어야 합니다.");
+                        if(!rd.getDocId().startsWith(sopPrefix)) {
+                            errors.rejectValue("sopRdRequestForm.rdDevelopmentDocs[" + idx + "].docId", "message.required", "Document Id는 \"" + sopPrefix + "\"로 시작 되어야 합니다.");
                         } else if(rd.getDocId().indexOf("_") == -1) {
                             errors.rejectValue("sopRdRequestForm.rdDevelopmentDocs["+idx+"].docId", "message.required", "Document Id 형식이 올바르지 않습니다.");
                         } else {
                             String rdNoStr = rd.getDocId().substring(rd.getDocId().indexOf("_") + 1);
-                            if(!rdNoStr.startsWith("RD") || rdNoStr.length() != 4) {
+                            if(!rdNoStr.startsWith("RF") || rdNoStr.length() != 4) {
                                 errors.rejectValue("sopRdRequestForm.rdDevelopmentDocs["+idx+"].docId", "message.required", "Document Id 형식이 올바르지 않습니다.");
                             } else {
                                 String no = rdNoStr.substring(rdNoStr.length() - 2);

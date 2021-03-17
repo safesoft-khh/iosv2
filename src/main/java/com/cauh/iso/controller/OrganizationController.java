@@ -93,7 +93,7 @@ public class OrganizationController {
                                                 deptCode, u.getDeptName(), teamCode, u.getTeamName(), u.getEmpNo(), u.getUsername(), JsTreeIcon.user_male);
 
              if(ObjectUtils.isEmpty(u.getDepartment())) {
-                log.trace("CAUH - 사용자 추가 : {}", u.getName());
+                log.trace("{} - 사용자 추가 : {}",siteCode, u.getName());
                 rootNode.getChildren().add(userNode);
             } else if(rootNode.getChildren().contains(deptNode)) {//부서 존재
                 log.trace("부서 존재함 deptCode : {} add user : {}", deptCode, korName);

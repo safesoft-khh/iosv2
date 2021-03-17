@@ -24,6 +24,7 @@ import com.groupdocs.assembly.DataSourceInfo;
 import com.querydsl.core.BooleanBuilder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.Async;
@@ -56,6 +57,9 @@ public class DocumentVersionService {
     private final UserRepository userRepository;
     private final RetirementDocumentService retirementDocumentService;
     private final UserService userService;
+
+    @Value("${sop.prefix}")
+    private String sopPrefix;
 
     private QDocumentVersion qDocumentVersion = QDocumentVersion.documentVersion;
 
@@ -390,8 +394,8 @@ public class DocumentVersionService {
         }
 
         if(StringUtils.isEmpty(docId) == false) {
-            if(!docId.toUpperCase().startsWith("CAUH-")) {
-                docId = "CAUH-" + docId;
+            if(!docId.toUpperCase().startsWith(sopPrefix)) {
+                docId = sopPrefix + docId;
             }
             builder.and(qDocumentVersion.document.docId.startsWith(docId));
         }

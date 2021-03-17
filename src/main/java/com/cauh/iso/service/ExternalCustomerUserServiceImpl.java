@@ -15,6 +15,7 @@ import com.cauh.iso.utils.DateUtils;
 import com.querydsl.core.BooleanBuilder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
@@ -31,6 +32,9 @@ public class ExternalCustomerUserServiceImpl implements ExternalCustomUserServic
     private final AgreementPersonalInformationService agreementPersonalInformationService;
     private final NonDisclosureAgreementService nonDisclosureAgreementService;
     private final ExternalCustomerRepository externalCustomerRepository;
+
+    @Value("site.code")
+    private String siteCode;
 
     @Transactional(readOnly = true)
     public Optional<Account> findByEmail(String email) {
@@ -108,7 +112,7 @@ public class ExternalCustomerUserServiceImpl implements ExternalCustomUserServic
                 model.put("code", randomNo);
                 Mail mail = Mail.builder()
                         .to(new String[]{email})
-                        .subject("[CAUH] ISO Management System Access Code")
+                        .subject(String.format("[%s] ISO Management System Access Code", siteCode))
                         .model(model)
                         .templateName("external-customer-code-template")
                         .build();

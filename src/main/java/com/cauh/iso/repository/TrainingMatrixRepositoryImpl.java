@@ -16,6 +16,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.xpath.operations.Bool;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -36,6 +37,9 @@ public class TrainingMatrixRepositoryImpl implements TrainingMatrixRepositoryCus
     private final JPAQueryFactory queryFactory;
 
     private final UserRepository userRepository;
+
+    @Value("${sop.prefix}")
+    private String sopPrefix;
 
     public Page<MyTrainingMatrix> getMyTrainingMatrix(Pageable pageable, List<UserJobDescription> userJobDescriptions) {
 
@@ -192,8 +196,8 @@ public class TrainingMatrixRepositoryImpl implements TrainingMatrixRepositoryCus
 
         if(!StringUtils.isEmpty(docId)) {
             log.info("@DocId : {}", docId);
-            if(!docId.toUpperCase().startsWith("CAUH-")) {
-                docId = "CAUH-" + docId;
+            if(!docId.toUpperCase().startsWith(sopPrefix)) {
+                docId = sopPrefix + docId;
             }
             builder.and(qDocumentVersion.document.docId.like(docId.toUpperCase() + "%"));
         }
@@ -258,8 +262,8 @@ public class TrainingMatrixRepositoryImpl implements TrainingMatrixRepositoryCus
 
         if(!StringUtils.isEmpty(docId)) {
             log.info("@DocId : {}", docId);
-            if(!docId.toUpperCase().startsWith("CAUH-")) {
-                docId = "CAUH-" + docId;
+            if(!docId.toUpperCase().startsWith(sopPrefix)) {
+                docId = sopPrefix + docId;
             }
             builder.and(trainingMatrix.documentVersion.document.docId.like(docId.toUpperCase() + "%"));
         }

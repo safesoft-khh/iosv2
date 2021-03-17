@@ -24,6 +24,7 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.xpath.operations.Bool;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -60,6 +61,9 @@ public class AdminSOPController {
     private final JDService jdService;
     //private final RetirementDocumentRepository retirementDocumentRepository;
     private final DocumentVersionRepository documentVersionRepository;
+
+    @Value("${sop.prefix}")
+    private String sopPrefix;
 
     @GetMapping("/management/{status}")
     public String management(@PathVariable("type") DocumentType type,
@@ -172,6 +176,9 @@ public class AdminSOPController {
             model.addAttribute("languageMap", languageMap);
         }
 
+        //2021-03-17 YSH :: SOP Prefix 값 전달
+        model.addAttribute("sopPrefix", sopPrefix);
+
         return "admin/sop/edit";
     }
 
@@ -181,13 +188,17 @@ public class AdminSOPController {
                        @PathVariable("stringStatus") String stringStatus, @PathVariable(value = "id", required = false) String id, @ModelAttribute("documentVersion") DocumentVersion documentVersion,
                        BindingResult bindingResult, SessionStatus sessionStatus,
                        @PathVariable(value = "action", required = false) SOPAction action,
-                       RedirectAttributes attributes) {
+                       RedirectAttributes attributes, Model model) {
 
         documentVersionValidator.validate(documentVersion, bindingResult);
 
 //        sop.setStatus(DocumentStatus.valueOf(stringStatus.toUpperCase()));
         if(bindingResult.hasErrors()) {
             log.debug("--- Document Version Validate ---\n{}", bindingResult.getAllErrors());
+
+            //2021-03-17 YSH :: SOP Prefix 값 전달
+            model.addAttribute("sopPrefix", sopPrefix);
+
             return "admin/sop/edit";
         }
 

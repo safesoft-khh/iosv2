@@ -43,13 +43,13 @@
                 var categoryId = $(this).val();
                 var documentNo = $("#document\\.documentNo").val();
 
-                $("#document\\.docId").val("SS-" + categoryId + documentNo);
+                $("#document\\.docId").val("${sopPrefix}" + categoryId + documentNo);
             });
             $("#document\\.documentNo").keyup(function() {
                 var categoryId = $("#document\\.category\\.shortName").val();
                 var documentNo = $(this).val();
 
-                $("#document\\.docId").val("SS-" + categoryId + documentNo);
+                $("#document\\.docId").val("${sopPrefix}" + categoryId + documentNo);
             });
             <#else>
             $('#document\\.sop\\.docId').select2({
