@@ -56,6 +56,9 @@ public class UserAgreementController {
     @Value("${site.image-logo}")
     private String imageLogo;
 
+    @Value("${site.code}")
+    private String siteCode;
+
     @Value("${site.company-title}")
     private String siteCompanyTitle;
 
@@ -235,6 +238,7 @@ public class UserAgreementController {
 
         //2021.03.16 - 이미지 로고 공통화
         model.addAttribute("imageLogo", imageLogo);
+        model.addAttribute("siteCode", siteCode);
 
         return "common/nonDisclosureAgreement";
     }

@@ -34,7 +34,7 @@
                 <tr>
                     <th class="col-xs-2 bg-gray-light">Role:</th>
                     <td class="col-xs-4 text-primary">${user.commaJobDescription}</td>
-                    <th class="col-xs-2 bg-gray-light">Start Date in CAUH:</th>
+                    <th class="col-xs-2 bg-gray-light">Start Date in ${siteCode}:</th>
                     <td class="col-xs-4 text-primary">${user.indate?string('dd-MMM-yyyy')}</td>
                 </tr>
                 <tr>

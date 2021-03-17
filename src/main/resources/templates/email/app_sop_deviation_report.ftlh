@@ -67,8 +67,7 @@
                                                 <td class="content-block aligncenter"
                                                     style="padding: 0 0 20px; text-align: center">
                                                     <a href="http://${domain}" target="_blank"
-                                                       style="color: #348eda; text-decoration: underline;">CAUH ISO-MS
-                                                        바로가기</a>
+                                                       style="color: #348eda; text-decoration: underline;">${siteCode} ISO-MS 바로가기</a>
                                                 </td>
                                             </tr>
                                         </table>

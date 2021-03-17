@@ -22,8 +22,8 @@
                     </tr>
                     <tr>
                         <td class="content-block aligncenter" style="vertical-align: top; padding: 0 0 20px; text-align: center;">
-                            <div>[ISO-MS] 새로운 공지사항이 등록 되었습니다. 확인해 주세요.</div>
-                            <a href="http://${domain}" target="_blank" style="color: #348eda; text-decoration: underline;">CAUH ISO-MS 바로가기</a>
+                            <div>[${siteCode} ISO-MS] 새로운 공지사항이 등록 되었습니다. 확인해 주세요.</div>
+                            <a href="http://${domain}" target="_blank" style="color: #348eda; text-decoration: underline;">${siteCode} ISO-MS 바로가기</a>
                         </td>
                     </tr>
                 </table>

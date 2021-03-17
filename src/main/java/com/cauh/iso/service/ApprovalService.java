@@ -56,6 +56,9 @@ public class ApprovalService {
     @Value("${site.company-title}")
     private String siteCompanyTitle;
 
+    @Value("${site.code}")
+    private String siteCode;
+
     public void delete(Integer id) {
         Approval approval = findById(id).get();
         log.info("Approval 삭제 : {}", id);

@@ -82,6 +82,9 @@ public class TrainingController {
     @Value("${site.company-title}")
     private String siteCompanyTitle;
 
+    @Value("${site.code}")
+    private String siteCode;
+
 //    @Value("${gw.userTbl}")
 //    private String gwUserTbl;
 //
@@ -492,6 +495,10 @@ public class TrainingController {
                 model.addAttribute("hasError", hasError);
                 model.addAttribute("empNo", empNo);
                 model.addAttribute("trainingLogs", trainingLogs);
+
+                //2021-03-17 YSH :: Site Code 공통작업.
+                model.addAttribute("siteCode", siteCode);
+
                 return "training/importTrainingLog";
             }
         }

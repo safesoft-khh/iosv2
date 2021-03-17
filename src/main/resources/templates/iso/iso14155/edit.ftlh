@@ -96,17 +96,6 @@
                 }
             });
 
-            $("#certification").change(function (e) {
-                if ($(this).is(":checked")) {
-                    $("#certificationHeadArea").css("display", "block");
-                    if($("#certificationHead").val() == ""){
-                        $("#certificationHead").val("CAUH-ISO 14155 GCP").trigger("change");
-                    }
-                } else {
-                    $("#certificationHeadArea").css("display", "none");
-                }
-            })
-
             $("#isoForm").submit(function (e) {
                 //Submit 하기 직전 disabled 상태 해제.
                 $("#training").attr("disabled", false);

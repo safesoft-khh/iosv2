@@ -72,7 +72,7 @@
                                             </tr>
                                             <tr>
                                                 <td class="content-block aligncenter" style="padding: 0 0 20px; text-align: center;">
-                                                    <a href="http://${domain}" target="_blank">CAUH ISO-MS 바로가기</a>
+                                                    <a href="http://${domain}" target="_blank">${siteCode} ISO-MS 바로가기</a>
                                                 </td>
                                             </tr>
                                         </table>

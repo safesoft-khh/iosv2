@@ -24,7 +24,7 @@
                         <tr>
                             <td class="alert alert-good"
                                 style="vertical-align: top; font-size: 16px; color: #fff; font-weight: 500; padding: 20px; text-align: center; background-color: #8BC34A;">
-                                <strong>[CAUH] ISO Management System Invitation</strong>
+                                <strong>[${siteCode}] ISO Management System Invitation</strong>
                             </td>
                         </tr>
                         <tr>

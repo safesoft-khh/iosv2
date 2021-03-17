@@ -18,7 +18,7 @@
                 <table class="main" width="100%" cellpadding="0" cellspacing="0" style="background-color: #fff; border-bottom: 2px solid #d7d7d7;">
                     <tr>
                         <td class="alert alert-good" style="vertical-align: top; font-size: 16px; color: #fff; font-weight: 500; padding: 20px; text-align: center; background-color: #8BC34A;">
-                            <strong>[CAUH] ISO Management System Access Code</strong>
+                            <strong>[${siteCode}] ISO Management System Access Code</strong>
                         </td>
                     </tr>
                     <tr>
@@ -60,7 +60,7 @@
                     <table width="100%">
                         <tr>
                             <td class="aligncenter" style="text-align: center;">
-                                <small>This email has sent from CAUH ISO Management System.
+                                <small>This email has sent from ${siteCode} ISO Management System.
                                 </small></td>
                         </tr>
                     </table>
