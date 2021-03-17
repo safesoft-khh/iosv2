@@ -28,7 +28,7 @@ public class AgreementReportService {
 //    private IXDocReport report;
     private final DocumentAssembly documentAssembly;
 
-    @Value("${site.code}")
+    @Value("site.code")
     private String siteCode;
 
 //    @PostConstruct

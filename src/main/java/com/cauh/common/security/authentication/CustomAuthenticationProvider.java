@@ -100,6 +100,9 @@ public class CustomAuthenticationProvider implements AuthenticationProvider, Mes
     @Value("${spring.application.name}")
     private String applicationName;
 
+    @Value("${site.code}")
+    private String siteCode;
+
     @Override
     public void setMessageSource(MessageSource messageSource) {
         this.messages = new MessageSourceAccessor(messageSource);
@@ -178,9 +181,12 @@ public class CustomAuthenticationProvider implements AuthenticationProvider, Mes
 
             userDetails.setSignature(signatureRepository.findById(username).isPresent());
 
+
+            //개인정보 활용동의, 기밀유지 서약 내용에 들어갈 Site Code 세팅
+            userDetails.setSiteCode(siteCode);
+
             //개인정보 활용동의 여부
             Optional<AgreementPersonalInformation> informationOptional = agreementPersonalInformationService.findOneAgreementPersonalInformation(userDetails);
-
 
             if(informationOptional.isPresent()){
                 AgreementPersonalInformation information = informationOptional.get();
