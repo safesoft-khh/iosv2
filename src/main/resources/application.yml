@@ -108,16 +108,15 @@ site:
   session-minute: "10"
   session-second: "00"
 
-  meta:
+meta:
     description: "Chung-Ang University Healthcare System ISO Management System"
     keywords: "중앙대학교병원,의료기기,임상시험,iso"
 
 sop:
+  prefix: "CAUH-"
   deviation-doc-id: "CAUH-QM002"
   agreement-personal-information-doc-id: "CAUH-QM002-RF11"
   disclosure-doc-id: "CAUH-QM002-RF10"
-
-
 
 cert:
   header: "CAUH-ISO 14155 GCP-"
