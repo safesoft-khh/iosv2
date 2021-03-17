@@ -209,7 +209,7 @@ public class AdminAuthorityController {
         Account account = optionalAccount.get();
 
         //2021-03-12 추가
-        if(account.getUserStatus() == UserStatus.SIGNUP_REQUEST) {
+        if(account.getUserStatus() != UserStatus.SIGNUP_REQUEST) {
             attributes.addFlashAttribute("messageType", "danger");
             attributes.addFlashAttribute("message", "가입 신청 중인 사용자가 아닙니다.");
             return "redirect:/admin/authority/users";

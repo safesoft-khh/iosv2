@@ -215,7 +215,7 @@
                     jdIds: {
                         validators: {
                             notEmpty: {
-                                message: '> The job descriptions are required and can\'t be empty'
+                                message: '> The ROLE is required and can\'t be empty'
                             }
                         }
                     }

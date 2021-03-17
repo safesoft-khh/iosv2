@@ -425,7 +425,7 @@
                                             <select id="teamSelect" class="form-control" disabled></select>
                                         </div>
                                     </div>
-                                    <label class="control-label">Job Descriptions</label>
+                                    <label class="control-label">ROLE</label>
                                     <div class="form-group">
                                         <@spring.formMultiSelect "account.jdIds" jobDescriptionMap "class='form-control'" />
                                     </div>
