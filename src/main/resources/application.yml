@@ -98,6 +98,7 @@ mail:
 site:
   code: "CAUH"
   link: "https://www.caumc.or.kr/"
+  company-title: "Chung-Ang University Hospital"
   footer-msg: "Copyright(c) CHUNG-ANG UNIVERSITY HEALTHCARE SYSTEM, All Rights Reserved."
   image-logo: "https://ch.cauhs.or.kr/images/main_re_logo.gif"
   login-image: "/static/img/login_image.jpg"
@@ -108,7 +109,7 @@ site:
   session-second: "00"
 
   meta:
-    description: "CHUNG-ANG University Healthcare System ISO Management System"
+    description: "Chung-Ang University Healthcare System ISO Management System"
     keywords: "중앙대학교병원,의료기기,임상시험,iso"
 
 sop:
