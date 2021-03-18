@@ -130,8 +130,8 @@ public class UserController {
     public String profilePwChangeProc(@ModelAttribute("pwUser") Account user, @CurrentUser Account currentUser,
                                       BindingResult result, RedirectAttributes attributes){
 
-        log.debug("New Password : {}", user.getNewPassword());
-        log.debug("Current Password : {}", user.getPassword());
+//        log.debug("New Password : {}", user.getNewPassword());
+//        log.debug("Current Password : {}", user.getPassword());
         UserPasswordDTO userPasswordDTO = new UserPasswordDTO(currentUser, user);
         userPasswordChangeValidator.validate(userPasswordDTO, result);
 

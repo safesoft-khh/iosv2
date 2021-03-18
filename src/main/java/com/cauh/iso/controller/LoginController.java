@@ -47,12 +47,20 @@ public class LoginController {
     @Value("${site.link}")
     private String siteLink;
 
+    @Value("${meta.keywords}")
+    private String keywords;
+
+    @Value("${meta.description}")
+    private String description;
+
     @GetMapping("/login")
     public String login(Authentication authentication, Model model) {
         if(ObjectUtils.isEmpty(authentication)) {
             model.addAttribute("imageLogo", imageLogo);
             model.addAttribute("siteLink", siteLink);
             model.addAttribute("loginImage", loginImage);
+            model.addAttribute("description", description);
+            model.addAttribute("keywords", keywords);
 
             return "login";
         } else {
@@ -109,8 +117,8 @@ public class LoginController {
                                      SessionStatus status,
                                      RedirectAttributes attributes, BindingResult result) {
 
-        log.debug("New Password : {}", user.getNewPassword());
-        log.debug("Current Password : {}", user.getPassword());
+//        log.debug("New Password : {}", user.getNewPassword());
+//        log.debug("Current Password : {}", user.getPassword());
         UserPasswordDTO userPasswordDTO = new UserPasswordDTO(currentUser, user);
         userPasswordChangeValidator.validate(userPasswordDTO, result);
 

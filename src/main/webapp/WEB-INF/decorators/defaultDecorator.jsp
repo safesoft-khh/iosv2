@@ -17,10 +17,6 @@
 <spring:eval expression="@environment.getProperty('site.link')" var="siteLink" />
 <spring:eval expression="@environment.getProperty('site.image-logo')" var="imageLogo" />
 
-<spring:eval expression="@environment.getProperty('site.meta.description')" var="description" />
-<spring:eval expression="@environment.getProperty('site.meta.keywords')" var="keywords" />
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -29,9 +25,6 @@
 <%--    <meta http-equiv="X-UA-Compatible" content="IE=edge">--%>
     <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1, minimum-scale=1,maximum-scale=1"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-
-    <meta name="description" content="${description}" />
-    <meta name="keywords" content="${keywords}" />
 
     <title><sitemesh:write property='title'/></title>
 
