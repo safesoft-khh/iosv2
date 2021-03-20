@@ -30,7 +30,7 @@
             </div>
             <hr/>
             </#if>
-            <h4 class="text-center">${user.engName?default(user.name)}</h4>
+            <h4 class="text-center">${user.engName?has_content?then(user.engName, user.name)}</h4>
             <hr/>
             <table class="table table-bordered">
                 <tbody>

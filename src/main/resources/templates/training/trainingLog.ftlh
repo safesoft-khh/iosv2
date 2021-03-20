@@ -21,7 +21,6 @@
 
     <!--Tabs Content-->
     <div class="tab-content">
-
         <div class="tab-pane fade active in">
             <#if trainingLog.content?has_content>
             <div class="text-right">
@@ -31,13 +30,13 @@
             </div>
             <hr/>
             </#if>
-            <h4 class="text-center">${user.engName?default(user.name)}</h4>
+            <h4 class="text-center">${user.engName?has_content?then(user.engName, user.name)}</h4>
             <hr/>
             <table class="table table-bordered">
                 <tbody>
                 <tr>
                     <th class="col-xs-2 bg-gray-light">Affiliation:</th>
-                    <td class="col-xs-4 text-primary">${siteCompanyTitle}</td>
+                    <td class="col-xs-4 text-primary">${siteCompanyTitle!''}</td>
                     <th class="col-xs-2 bg-gray-light">Department:</th>
                     <td class="col-xs-4 text-primary">${user.deptName!'N/A'}</td>
                 </tr>
