@@ -94,7 +94,10 @@ public class OfflineTrainingService {
 //            OfflineTraining offlineTraining = findById(id).get();
             QUserJobDescription qUserJobDescription = QUserJobDescription.userJobDescription;
             BooleanBuilder aBuilder = new BooleanBuilder();
-            aBuilder.and(qUserJobDescription.jobDescription.shortName.in(Arrays.asList(receiveEmailRole.split(","))));
+
+            //속한 Role이 Enabled 상태이면서 Manager 권한을 갖고있는 경우
+            aBuilder.and(qUserJobDescription.jobDescription.manager.eq(true))
+                    .and(qUserJobDescription.jobDescription.enabled.eq(true));
 
             Iterable<UserJobDescription> userJobDescriptions = userJobDescriptionRepository.findAll(aBuilder);
             List<String> toUserList = StreamSupport.stream(userJobDescriptions.spliterator(), false)
