@@ -176,7 +176,6 @@ public class ISOOfflineTrainingService {
             aBuilder.and(qUserJobDescription.jobDescription.manager.eq(true))
                     .and(qUserJobDescription.jobDescription.enabled.eq(true));
 
-
             Iterable<UserJobDescription> userJobDescriptions = userJobDescriptionRepository.findAll(aBuilder);
             List<String> toUserList = StreamSupport.stream(userJobDescriptions.spliterator(), false)
                     .map(u -> u.getUser().getUsername())
