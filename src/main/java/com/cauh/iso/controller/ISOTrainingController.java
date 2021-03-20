@@ -111,7 +111,7 @@ public class ISOTrainingController {
 
         isoTrainingLog.setLastPageNo(lastPageNo);
         isoTrainingLog.setProgressPercent(progressPercent);
-        isoTrainingLog.setTrainingTime(trainingTime);
+        isoTrainingLog.setTrainingTime(ObjectUtils.isEmpty(trainingTime)?0:trainingTime);
         isoTrainingLog.setStatus(progressPercent >= 100 ? (!StringUtils.isEmpty(iso.getQuiz()) ? TrainingStatus.TRAINING_COMPLETED : TrainingStatus.COMPLETED) : TrainingStatus.PROGRESS);
         isoTrainingLog.setCompleteDate(isoTrainingLog.getStatus()==TrainingStatus.COMPLETED?new Date():null);
 
