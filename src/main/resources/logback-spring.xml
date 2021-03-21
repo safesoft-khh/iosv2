@@ -3,7 +3,7 @@
     <include resource="org/springframework/boot/logging/logback/defaults.xml" />
     <include resource="org/springframework/boot/logging/logback/console-appender.xml" />
     <!-- 변수 지정 -->
-    <property name="LOG_DIR" value="C:\\logs\\cauh\\iso" />
+    <property name="LOG_DIR" value="D:\\logs\\cauh\\iso" />
     <property name="LOG_PATH_NAME" value="${LOG_DIR}/data.log" />
     <!-- FILE Appender -->
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
