@@ -103,7 +103,7 @@ public class DocumentVersionService {
 
     public DocumentVersion revision(DocumentVersion documentVersion) throws Exception {
         DocumentVersion supersededDocument = documentVersionRepository.findById(documentVersion.getId()).get();
-        if(documentVersion.getStatus() == DocumentStatus.EFFECTIVE) {
+        if(supersededDocument.getStatus() == DocumentStatus.EFFECTIVE) {
             supersededDocument.setStatus(DocumentStatus.SUPERSEDED);
             DocumentVersion savedSupersededDocument = documentVersionRepository.save(supersededDocument);
             log.debug(" => 이전 버전의 상태를 Superseded 상태로 변경한다. - {}", documentVersion.getId());

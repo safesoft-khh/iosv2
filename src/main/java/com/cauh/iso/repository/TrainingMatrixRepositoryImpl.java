@@ -2,6 +2,7 @@ package com.cauh.iso.repository;
 
 import com.cauh.common.entity.*;
 import com.cauh.common.entity.constant.JobDescriptionStatus;
+import com.cauh.common.entity.constant.UserType;
 import com.cauh.common.repository.UserRepository;
 import com.cauh.iso.domain.*;
 import com.cauh.iso.domain.constant.*;
@@ -185,6 +186,7 @@ public class TrainingMatrixRepositoryImpl implements TrainingMatrixRepositoryCus
 
         BooleanBuilder builder = new BooleanBuilder();
         builder.and(qUser.enabled.eq(true));
+        builder.and(qUser.userType.eq(UserType.USER));
         builder.and(qUser.indate.isNotNull());
 
         if (!StringUtils.isEmpty(department)) {
@@ -434,6 +436,7 @@ public class TrainingMatrixRepositoryImpl implements TrainingMatrixRepositoryCus
         BooleanBuilder builder = new BooleanBuilder();
         builder.and(qUser.enabled.eq(true));
         builder.and(qUser.indate.isNotNull());
+        builder.and(qUser.userType.eq(UserType.USER));
 
         if (!ObjectUtils.isEmpty(department)) {
             builder.and(qUser.department.eq(department));

@@ -13,7 +13,7 @@
                 var docVerId = $(this).data("id");
 
                 bootbox.dialog({
-                    title: 'Training Period Expand',
+                    title: '${type.name()} Retirement',
                     message: "<div>"
                         + "<p>Superseded 상태로 변경 하시겠습니까?<br><em>Superseded 기간 미적용 시 곧바로 반영됩니다.</em></p>"
                         + "<table class='table table-striped'>"

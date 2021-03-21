@@ -59,7 +59,7 @@
 <#--                    </div>-->
 <#--                    <hr/>-->
 <#--                </#if>-->
-                <h4 class="text-center">${logUser.engName?default(logUser.name)}</h4>
+                <h4 class="text-center">${logUser.engName?has_content?then(logUser.engName, logUser.name)}</h4>
                 <hr/>
                 <table class="table table-bordered">
                     <tbody>

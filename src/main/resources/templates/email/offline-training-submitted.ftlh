@@ -9,44 +9,44 @@
 
 <body itemscope itemtype="http://schema.org/EmailMessage">
 
-<table class="body-wrap">
+<table class="body-wrap" style="background-color: #ecf0f5; width: 100%;">
     <tr>
         <td></td>
-        <td class="container" style="width:800px;max-width:800px !important;">
-            <div class="content" style="width:800px;max-width:800px !important;">
-                <table class="main" width="100%" cellpadding="0" cellspacing="0">
+        <td class="container" style="display: block !important; max-width: 800px !important; margin: 0 auto !important; clear: both !important;width:800px;max-width:800px !important;">
+            <div class="content" style="max-width: 800px;  margin: 0 auto; display: block; padding: 20px; width:800px; max-width:800px !important;">
+                <table class="main" width="100%" cellpadding="0" cellspacing="0" style="background-color: #fff; border-bottom: 2px solid #d7d7d7;">
                     <tr>
                         <td class="alert alert-good" style="font-size: 16px; color: #fff; font-weight: 500; padding: 20px; text-align: center; background-color: #8BC34A;">
                             <strong>[ISO-MS] Off-line Training 등록 요청</strong>
                         </td>
                     </tr>
                     <tr>
-                        <td class="content-wrap aligncenter">
+                        <td class="content-wrap aligncenter" style="vertical-align: top; padding: 10px !important; text-align: center;">
                             <table width="100%" cellpadding="0" cellspacing="0">
                                 <tr>
-                                    <td class="content-block aligncenter">
+                                    <td class="content-block aligncenter" style="vertical-align: top; padding: 0 0 20px; text-align: center;">
                                         <table class="invoice" style="margin: 25px auto; text-align: left; width: 100%;">
                                             <!--                                            <tr>-->
                                             <!--                                                <td>[e-SOP] SOP Off-line Training 등록 요청</td>-->
                                             <!--                                            </tr>-->
                                             <tr>
                                                 <td>
-                                                    <table class="invoice-items" cellpadding="0" cellspacing="0">
+                                                    <table class="invoice-items" cellpadding="0" cellspacing="0" style="width: 100%;">
                                                         <tr>
-                                                            <td>Requester</td>
-                                                            <td class="alignleft">${requester.name}</td>
+                                                            <td style="padding: 5px 0;">Requester</td>
+                                                            <td class="alignleft" style="padding: 5px 0; text-align: left;">${requester.name}</td>
                                                         </tr>
                                                         <tr>
-                                                            <td>Training Date</td>
-                                                            <td class="alignleft">${offlineTraining.trainingDate?string('yyyy-MM-dd')}</td>
+                                                            <td style="padding: 5px 0;">Training Date</td>
+                                                            <td class="alignleft" style="padding: 5px 0; text-align: left;">${offlineTraining.trainingDate?string('yyyy-MM-dd')}</td>
                                                         </tr>
                                                         <tr>
-                                                            <td>Organization</td>
-                                                            <td class="alignleft">${offlineTraining.organization}</td>
+                                                            <td style="padding: 5px 0;">Organization</td>
+                                                            <td class="alignleft" style="padding: 5px 0; text-align: left;">${offlineTraining.organization}</td>
                                                         </tr>
                                                         <tr>
-                                                            <td>Training SOP</td>
-                                                            <td class="alignleft">
+                                                            <td style="padding: 5px 0;">Training SOP</td>
+                                                            <td class="alignleft" style="padding: 5px 0; text-align: left;">
 <#--                                                                <table width="100%">-->
 <#--                                                                    <tr>-->
 <#--                                                                        <th>SOP</th>-->
@@ -63,15 +63,15 @@
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td >Trainee</td>
-                                                            <td class="alignleft"><#list attendees as attendee><#if attendee?is_first == false>, </#if>${attendee.name?default('')}</#list>
+                                                            <td style="padding: 5px 0;">Trainee</td>
+                                                            <td class="alignleft" style="padding: 5px 0; text-align: left;"><#list attendees as attendee><#if attendee?is_first == false>, </#if>${attendee.name?default('')}</#list>
                                                             </td>
                                                         </tr>
                                                     </table>
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td class="content-block aligncenter" style="padding: 0 0 20px; text-align: center">
+                                                <td class="content-block aligncenter" style="padding: 0 0 20px; text-align: center;">
                                                     <a href="http://${domain}" target="_blank">ISO MS 바로가기</a>
                                                 </td>
                                             </tr>
@@ -82,10 +82,10 @@
                         </td>
                     </tr>
                 </table>
-                <div class="footer">
+                <div class="footer" style="width: 100%; clear: both; color: #999; padding: 20px;">
                     <table width="100%">
                         <tr>
-                            <td class="aligncenter">
+                            <td class="aligncenter" style="color: #999; font-size: 12px; text-align: center;">
                                 <small>본 이메일의 발신자 주소는 발신전용으로 회신되지 않습니다.<br/>
                                     ${footerMsg}
                                 </small></td>

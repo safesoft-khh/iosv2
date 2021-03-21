@@ -176,9 +176,9 @@ public class OfflineTrainingService {
                 trainingLog.setTrainingTime((int)time);
                 trainingLog.setUser(attendee.getAccount());
 
-                log.debug("=> EmpNo : {} Training 이력 추가 : {}", attendee.getAccount().getEmpNo(), doc.getDocumentVersion().getId());
+                log.debug("=> ID : {} Training 이력 추가 : {}", attendee.getAccount().getUsername(), doc.getDocumentVersion().getId());
                 TrainingLog savedTrainingLog = trainingLogService.saveOrUpdate(trainingLog, null);
-                log.info("<== Offline Training Log : {}, savedTrainingLog Id : {}", attendee.getAccount().getEmpNo(), savedTrainingLog.getId());
+                log.info("<== Offline Training Log : {}, savedTrainingLog Id : {}", attendee.getAccount().getUsername(), savedTrainingLog.getId());
             }
         }
 

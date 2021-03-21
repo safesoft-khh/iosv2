@@ -16,7 +16,7 @@
             <div class="content" style="max-width: 800px;  margin: 0 auto; display: block; padding: 20px; width:800px; max-width:800px !important;">
                 <table class="main" width="100%" cellpadding="0" cellspacing="0" style="background-color: #fff; border-bottom: 2px solid #d7d7d7;">
                     <tr>
-                        <td class="alert alert-good" style="color: #fff; text-decoration: none; font-weight: 500; font-size: 16px; background-color: #8BC34A;">
+                        <td class="alert alert-good" style="color: #fff; text-decoration: none; font-weight: 500; padding: 20px; font-size: 16px; background-color: #8BC34A;">
                             <strong>[ISO-MS] ISO Off-line Training 반영 알림</strong>
                         </td>
                     </tr>
