@@ -51,8 +51,8 @@ spring:
     table: flyway_sop_schema_history
   datasource:
     driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
-#    url: jdbc:sqlserver://183.111.104.67:20170;DatabaseName=dtnc
-    url: jdbc:sqlserver://192.168.9.183:20170;DatabaseName=cauh_dev
+    url: jdbc:sqlserver://183.111.104.67:20170;DatabaseName=cauh_prod
+    #url: jdbc:sqlserver://192.168.9.183:20170;DatabaseName=cauh_dev
     username: sa
     password: safe123!@#
 
@@ -72,20 +72,20 @@ logging.level:
 #  com.dtnsm: debug
 
 server:
-  domain: cauhiso.safesoft.co.kr
-  port: 9090
+  domain: www.cauhsiso.co.kr
+  port: 8081
 
 file:
-  upload-dir: C:\UploadFiles\iso
-  training-log-upload-dir: C:\UploadFiles\iso\binder\
-  certification-upload-dir: C:\UploadFiles\iso\cert\
-  binder-dir: C:\UploadFiles\iso\binder\
+  upload-dir: D:\UploadFiles\iso
+  training-log-upload-dir: D:\UploadFiles\iso\binder\
+  certification-upload-dir: D:\UploadFiles\iso\cert\
+  binder-dir: D:\UploadFiles\iso\binder\
 
 gw:
   userTbl: gw.GWareNet10_Dtnc.dbo.tblUser_1
   deptTbl: gw.GWareNet10_Dtnc.dbo.tblDepart_1
 
 groupdocs:
-  license: C:\\Servers\\deploy\\GroupDocs.Total.Java.lic
-#  license: D:\\Servers\\deploy\\GroupDocs.Total.Java.lic
+#  license: C:\\Servers\\deploy\\GroupDocs.Total.Java.lic
+  license: D:\\Servers\\deploy\\GroupDocs.Total.Java.lic
 
