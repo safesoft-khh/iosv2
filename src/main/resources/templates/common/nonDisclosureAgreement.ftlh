@@ -68,7 +68,7 @@
             <hr/>
             <div>&nbsp;</div>
             <div class="mar-top mar-btm">This NON-DISCLOSURE AGREEMENT FOR SOP is to assure the protection and preservation of the confidential and/or proprietary nature of information to be disclosed.</div>
-            <div class="mar-btm">The Disclosure (${siteCode}) intends to disclose proprietary information and data <span class="text-bold"><’The Confidential Information’></span> relating to ${siteCode} Standard Operating Procedures (SOP) to the Recipient for the purpose as below (<span style="font-style: italic">Please tick where applicable</span>).</div>
+            <div class="mar-btm">The Disclosure (${siteCompanyTitle} ${siteCode}) intends to disclose proprietary information and data <span class="text-bold"><’The Confidential Information’></span> relating to ${siteCompanyTitle} ${siteCode} Standard Operating Procedures (SOP) to the Recipient for the purpose as below (<span style="font-style: italic">Please tick where applicable</span>).</div>
 
             <div class="mar-top mar-btm">
                 <label class="checkbox-inline">

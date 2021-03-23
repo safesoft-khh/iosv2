@@ -158,7 +158,7 @@
 
     <div class="modal fade" id="cert-modal" role="dialog" tabindex="-1" aria-labelledby="training-modal"
          aria-hidden="true">
-        <div class="modal-dialog" style="display: inline-grid">
+        <div class="modal-dialog" style="width:auto;">
             <div class="modal-content">
                 <!--Modal header-->
                 <div class="modal-header">

@@ -66,7 +66,7 @@
             <div class="mar-top mar-btm">I fully understand the contents written below, and agree to the collection and use of personal information in accordance with the Personal Information Protection Act.</div>
 
             <div class="text-bold">1. Purpose of Collection and Use of Personal Information</div>
-            <div class="mar-btm text-muted">&nbsp;&nbsp;&nbsp;&nbsp;To access “${siteCompanyTitle}-ISO 14155” SOP/RF as per request by the External Customer.)</div>
+            <div class="mar-btm text-muted">&nbsp;&nbsp;&nbsp;&nbsp;To access “${siteCompanyTitle}${isoTitle?has_content?then('-', '')}${isoTitle}” SOP/RF as per request by the External Customer.)</div>
 
             <div class="text-bold">2. Items of Personal Information to be Collected and Used</div>
             <div class="mar-btm text-muted">&nbsp;&nbsp;&nbsp;&nbsp;: Name, Affiliation, E-mail and Role.</div>
@@ -78,11 +78,11 @@
             <div class="mar-btm text-muted">&nbsp;&nbsp;&nbsp;&nbsp;: Personal Information shall not be provided to the Third Parties.</div>
 
             <div class="text-bold">5. Right to Refuse</div>
-            <div class="mar-btm text-muted">&nbsp;&nbsp;&nbsp;&nbsp;: The External Customer has the right to refuse the collection and use of personal information, however, he or she shall be prohibited access to “${siteCompanyTitle}-ISO 14155” SOP/RF if refusing to provide its personal information.</div>
+            <div class="mar-btm text-muted">&nbsp;&nbsp;&nbsp;&nbsp;: The External Customer has the right to refuse the collection and use of personal information, however, he or she shall be prohibited access to “${siteCompanyTitle}${isoTitle?has_content?then('-', '')}${isoTitle}” SOP/RF if refusing to provide its personal information.</div>
 
             <div class="text-bold mar-btm">6. ${siteCompanyTitle} shall not use the collected information without the consent of the External Customer for anything other than the original purpose aforementioned, and shall not provide it to the Third Parties.</div>
 
-            <div class="mar-btm mar-top">I hereby confirm that I shall provide personal information (name, affiliation, e-mail and Role) for the access to “${siteCompanyTitle}-ISO 14155” SOP/RF</div>
+            <div class="mar-btm mar-top">I hereby confirm that I shall provide personal information (name, affiliation, e-mail and Role) for the access to “${siteCompanyTitle}${isoTitle?has_content?then('-', '')}${isoTitle}” SOP/RF</div>
 <#--            <div class="mar-top mar-btm">-->
 <#--                <label class="checkbox-inline">-->
 <#--                    <input type="checkbox" name="agree" value="1"> I agree-->

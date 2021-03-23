@@ -62,6 +62,9 @@ public class UserAgreementController {
     @Value("${site.company-title}")
     private String siteCompanyTitle;
 
+    @Value("${site.iso-title}")
+    private String isoTitle;
+
     @Value("${site.company-kor-title}")
     private String siteCompanyKorTitle;
 
@@ -93,6 +96,18 @@ public class UserAgreementController {
      */
     @GetMapping("/agreement-to-collect-and-use-personal-information")
     public String agreementCollectUse(@CurrentUser Account user, Model model) {
+
+        //내부사용자 기준 - 약관 동의 정보가 이미 있는 경우,
+        Boolean isInternal = agreementPersonalInformationService.findOneAgreementPersonalInformation(user).isPresent();
+        //외부사용자 기준 - 약관 동의 정보가 이미 있는 경우
+        Boolean isExternal = agreementPersonalInformationService.findOneAgreementPersonalInformation(user.getEmail()).isPresent();
+
+        //내부, 외부 사용자 중에 약관 동의 내역이 이미 있으면 메인화면으로 전환
+        if(isInternal || isExternal) {
+            log.debug("@개인정보 활용 동의 / 이미 동의한 내역이 있음 : {}", user.getUsername());
+            return "redirect:/";
+        }
+
         AgreementPersonalInformation agreementPersonalInformation = new AgreementPersonalInformation();
 
         Optional<DocumentVersion> optionalDocumentVersion = documentService.findLatestDocument(apiDocId);
@@ -126,6 +141,7 @@ public class UserAgreementController {
         //2021.03.16 - 이미지 로고 / 회사 이름 공통화
         model.addAttribute("imageLogo", imageLogo);
         model.addAttribute("siteCompanyTitle", siteCompanyTitle);
+        model.addAttribute("isoTitle", isoTitle);
 
         return "common/agreementCollectUse";
     }
@@ -175,6 +191,15 @@ public class UserAgreementController {
      */
     @GetMapping("/confidentiality-pledge")
     public String confidentialityPledge(@CurrentUser Account user, Model model){
+
+        //내부사용자 기준 - 약관 동의 정보가 이미 있는 경우,
+        Boolean isInternal = confidentialityPledgeService.findOneConfidentialityPledge(user).isPresent();
+        //내부 사용자 중에 약관 동의 내역이 이미 있으면 메인화면으로 전환
+        if(isInternal) {
+            log.debug("비밀 보장 서약 / 이미 동의한 내역이 있음 : {}", user.getUsername());
+            return "redirect:/";
+        }
+
         ConfidentialityPledge confidentialityPledge = new ConfidentialityPledge();
 
         confidentialityPledge.setEmail(user.getEmail());
@@ -226,6 +251,15 @@ public class UserAgreementController {
      */
     @GetMapping("/non-disclosure-agreement-for-sop")
     public String nonDisclosureAgreement(@CurrentUser Account user, Model model) {
+
+        //외부사용자 기준 - 약관 동의 정보가 이미 있는 경우
+        Boolean isExternal = nonDisclosureAgreementService.findOneNonDisclosureAgreement(user.getEmail()).isPresent();
+        //외부 사용자 중에 약관 동의 내역이 이미 있으면 메인화면으로 전환
+        if(isExternal) {
+            log.debug("@SOP 비공개 동의 / 이미 동의한 내역이 있음 : {}", user.getUsername());
+            return "redirect:/";
+        }
+
         NonDisclosureAgreement nonDisclosureAgreement = new NonDisclosureAgreement();
 
         Optional<DocumentVersion> optionalDocumentVersion = documentService.findLatestDocument(disclosureDocId);
@@ -243,6 +277,7 @@ public class UserAgreementController {
         //2021.03.16 - 이미지 로고 공통화
         model.addAttribute("imageLogo", imageLogo);
         model.addAttribute("siteCode", siteCode);
+        model.addAttribute("siteCompanyTitle", siteCompanyTitle);
 
         return "common/nonDisclosureAgreement";
     }

@@ -247,13 +247,6 @@
 <!--            <artifactId>junit</artifactId>-->
 <!--        </dependency>-->
 
-        <dependency>
-            <groupId>kr.dogfoot</groupId>
-            <artifactId>hwplib</artifactId>
-            <version>1.0.3</version>
-        </dependency>
-
-
         <!-- https://mvnrepository.com/artifact/fr.opensagres.xdocreport/fr.opensagres.xdocreport.core -->
 <!--        <dependency>-->
 <!--            <groupId>fr.opensagres.xdocreport</groupId>-->

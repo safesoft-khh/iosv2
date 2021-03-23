@@ -350,12 +350,14 @@
             overflow: hidden;
         }
 
+
         .signup-image {
-            display: flex;
+            /*display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: center;*/
             margin-right: 50px;
         }
+
 
         .signup-form {
             width: 40%;

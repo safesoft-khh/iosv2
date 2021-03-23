@@ -53,7 +53,7 @@
                         <th class="text-center">ROLE</th>
                         <th class="text-center">Agreement Date</th>
                         <th class="text-center">Agree</th>
-                        <th style="width:80px;">#Actions</th>
+<#--                        <th style="width:80px;">#Actions</th>-->
                     </tr>
                     </thead>
                     <tbody>
@@ -72,12 +72,12 @@
                                 <td class="text-center">
                                     <span class="label label-${t.agree?then('info', 'danger')}">${t.agree?then('Agree', 'Withdrawal')}</span>
                                 </td>
-                                <td class="text-center">
-                                    <a href="${t.id}/print"
-                                       class="btn btn-mint btn-xs add-tooltip" data-toggle="tooltip"
-                                       data-container="body" data-placement="top" data-original-title="Print"><i
-                                                class="fa fa-print"></i></a>
-                                </td>
+<#--                                <td class="text-center">-->
+<#--                                    <a href="${t.id}/print"-->
+<#--                                       class="btn btn-mint btn-xs add-tooltip" data-toggle="tooltip"-->
+<#--                                       data-container="body" data-placement="top" data-original-title="Print"><i-->
+<#--                                                class="fa fa-print"></i></a>-->
+<#--                                </td>-->
                             </tr>
                         </#list>
                     <#else>
