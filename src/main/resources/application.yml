@@ -106,8 +106,8 @@ site:
   login-image: "/static/img/login_logo.jpg"
 
   #세션 타이머(초 단위)
-  session-timer: "600"
-  session-minute: "10"
+  session-timer: "1800"
+  session-minute: "30"
   session-second: "00"
 
 meta:
