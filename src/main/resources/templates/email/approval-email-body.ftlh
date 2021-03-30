@@ -111,8 +111,8 @@
     <table class="invoice-items" cellpadding="0" cellspacing="0">
         <tr>
             <th class="aligncenter">Document Type</th>
-            <th class="aligncenter">SOP/RD<br/>Document Id</th>
-            <th class="aligncenter">SOP/RD<br/>Title</th>
+            <th class="aligncenter">SOP/${formName}<br/>Document Id</th>
+            <th class="aligncenter">SOP/${formName}<br/>Title</th>
             <th class="aligncenter">Ver.</th>
             <th class="aligncenter">Effective Date</th>
         </tr>
@@ -130,7 +130,7 @@
         <#if retirementRDs?has_content>
             <#list retirementRDs as rd>
                 <tr>
-                    <td class="aligncenter">RD</td>
+                    <td class="aligncenter">${formName}</td>
                     <td class="aligncenter">${rd.document.docId}</td>
                     <td class="aligncenter">${rd.document.title}</td>
                     <td class="aligncenter">${rd.version}</td>

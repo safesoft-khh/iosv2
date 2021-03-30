@@ -44,8 +44,8 @@
                 <thead>
                 <tr class="bg-gray-light">
                     <th class="text-center">Document Type</th>
-                    <th class="text-center">SOP/RD<br/>Document Id</th>
-                    <th>SOP/RD Title</th>
+                    <th class="text-center">SOP/${formName}<br/>Document Id</th>
+                    <th>SOP/${formName} Title</th>
                     <th class="text-center">Ver.</th>
                     <th class="text-center">Effective Date</th>
                 </tr>
@@ -67,7 +67,7 @@
                         <h5>SOP</h5>
                         <@spring.formMultiSelect "approval.retirementApprovalForm.sopIds" sopMap "class='form-control'"/>
                         <@spring.showErrors "<br/>" "color:red;"/>
-                        <h5>RD</h5>
+                        <h5>${formName}</h5>
                         <@spring.formMultiSelect "approval.retirementApprovalForm.rdIds" rdMap "class='form-control'"/>
                         <@spring.showErrors "<br/>" "color:red;"/>
                     </td>

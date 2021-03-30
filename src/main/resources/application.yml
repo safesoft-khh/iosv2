@@ -121,7 +121,7 @@ sop:
   disclosure-doc-id: "DKUH-SSP700-RF10"
 
 form:
-  prefix: "-RF"
+  prefix: "-FORM"
   name: "Form"
 
 cert:

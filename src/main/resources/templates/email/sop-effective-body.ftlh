@@ -25,7 +25,7 @@
     </table>
 </#if>
 <#if effectiveRFs?has_content>
-    <h5>Effective RF Information</h5>
+    <h5>Effective Form Information</h5>
     <table class="table table-bordered">
         <thead>
         <tr>

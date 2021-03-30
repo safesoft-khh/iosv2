@@ -18,6 +18,7 @@ import com.querydsl.core.BooleanBuilder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.pdfbox.tools.imageio.ImageIOUtil;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -67,6 +68,9 @@ public class SOPController {
 
     private final DocumentAccessLogService documentAccessLogService;
     private final DocumentVersionRepository documentVersionRepository;
+
+    @Value("${form.name}")
+    private String formName;
 
     public static <T> Predicate<T> distinctByKey(
             Function<? super T, ?> keyExtractor) {
@@ -153,6 +157,8 @@ public class SOPController {
         model.addAttribute("sopId", sopId);
         model.addAttribute("status", status);
         model.addAttribute("sopList", filteredList);
+
+        model.addAttribute("formName", formName);
         return "sop/list";
     }
 

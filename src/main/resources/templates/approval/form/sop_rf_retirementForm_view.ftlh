@@ -4,7 +4,7 @@
     <thead>
     <tr class="bg-gray-light">
         <th class="text-center">Document Type</th>
-        <th class="text-center">SOP/RD<br/>Document Id</th>
+        <th class="text-center">SOP/${formName}}<br/>Document Id</th>
         <th>SOP/RD Title</th>
         <th class="text-center">Ver.</th>
         <th class="text-center">Effective Date</th>

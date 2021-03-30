@@ -153,7 +153,7 @@
         <td class="bg-gray-light">Requested Documents</td>
         <td>
             <div>
-                <h6>[SOP/RD]</h6>
+                <h6>[SOP/${formName}]</h6>
             </div>
             <#macro bind path>
                 <#if htmlEscape?exists>
@@ -209,7 +209,7 @@
                                                                     <#--                                            <input class="hummingbirdNoParent" id="${rdVer.id}" data-id="${rdVer.id}" name="rd" value="${rdVer.id}" type="checkbox" />-->
                                                                     <#--                                            <@spring.formCheckbox "approval.sopDisclosureRequestForm.rdIds" "value='${rdVer.id}'"/>-->
                                                                     <@checkbox "approval.sopDisclosureRequestForm.rfIds" rfVer.id approval.sopDisclosureRequestForm.rfIds/>
-                                                                    <span class="label label-info">RF</span> ${rfVer.document.docId}/${rfVer.document.title}/${rfVer.version} </label>
+                                                                    <span class="label label-info">${formName}</span> ${rfVer.document.docId}/${rfVer.document.title}/${rfVer.version} </label>
                                                             </li>
                                                         </#if>
                                                     </#list>
@@ -250,7 +250,7 @@
                                                                     <#--                                            <input class="hummingbirdNoParent" id="${rdVer.id}" data-id="${rdVer.id}" name="rd" value="${rdVer.id}" type="checkbox" />-->
                                                                     <#--                                            <@spring.formCheckbox "approval.sopDisclosureRequestForm.rdIds" "value='${rdVer.id}'"/>-->
                                                                     <@checkbox "approval.sopDisclosureRequestForm.rfIds" rdVer.id approval.sopDisclosureRequestForm.rfIds/>
-                                                                    <span class="label label-info">RD</span> ${rdVer.document.docId}/${rdVer.document.title}/${rdVer.version} </label>
+                                                                    <span class="label label-info">${formName}</span> ${rdVer.document.docId}/${rdVer.document.title}/${rdVer.version} </label>
                                                             </li>
                                                         </#if>
                                                     </#list>

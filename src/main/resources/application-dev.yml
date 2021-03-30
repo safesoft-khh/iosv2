@@ -49,7 +49,7 @@ logging.level.org.hibernate.type.descriptor.sql:  info
 
 
 server:
-  domain: cauhiso.safesoft.co.kr
+  domain: dkuhiso.safesoft.co.kr
   port: 8081
 
 file:

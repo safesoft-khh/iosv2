@@ -20,7 +20,7 @@
         </script>
     <#elseif type == 'RF' && (sopList?has_content == false || sopList?size == 0)>
         <script>
-            alert('SOP 등록 후 RF 등록을 진행해 주세요.');
+            alert('SOP 등록 후 '+${formName}+' 등록을 진행해 주세요.');
             history.back();
         </script>
     </#if>
@@ -120,7 +120,12 @@
                 </div>
             </#if>
             <div class="form-group">
-                <label class="col-sm-3 control-label">${type.name()} No</label>
+                <#if type == 'RF'>
+                    <label class="col-sm-3 control-label">${formName} No</label>
+                <#else>
+                    <label class="col-sm-3 control-label">${type.name()} No</label>
+                </#if>
+
                 <div class="col-sm-9">
                     <@spring.formInput "documentVersion.document.documentNo" "class='form-control' placeholder='${type.name()} No'${readonly}"/>
                     <@spring.showErrors "" "color:red;"/>
@@ -169,10 +174,10 @@
                 </div>
             <#else>
                 <div class="form-group">
-                    <label class="col-sm-3 control-label">RF Document File(ENG)</label>
+                    <label class="col-sm-3 control-label">${formName} Document File(ENG)</label>
                     <div class="col-sm-9">
                         <#assign accept = '.xls,.xlsx,.doc,.docx,.hwp'/>
-                        <@spring.formInput "documentVersion.uploadRfEngFile" "class='form-control' placeholder='RF Document File(ENG)' accept='${accept}'" "file"/>
+                        <@spring.formInput "documentVersion.uploadRfEngFile" "class='form-control' placeholder='${formName} Document File(ENG)' accept='${accept}'" "file"/>
                         <@spring.showErrors "" "color:red;"/>
                     </div>
                 </div>
@@ -180,16 +185,16 @@
                     <label class="col-sm-3 control-label">View PDF File (ENG)</label>
                     <div class="col-sm-9">
                         <#assign accept = '.pdf'/>
-                        <@spring.formInput "documentVersion.uploadHwpEngPdfFile" "class='form-control' placeholder='RF Document File(ENG)' accept='${accept}'" "file"/>
+                        <@spring.formInput "documentVersion.uploadHwpEngPdfFile" "class='form-control' placeholder='${formName} Document File(ENG)' accept='${accept}'" "file"/>
                         <small style="color:red;">해당 입력 창에 PDF 파일을 업로드 하지 않았을 경우, 한글 문서(hwp)에 대한 뷰어가 적용되지 않습니다.</small>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="col-sm-3 control-label">RF Document File(KOR)</label>
+                    <label class="col-sm-3 control-label">${formName} Document File(KOR)</label>
                     <div class="col-sm-9">
                         <#assign accept = '.xls,.xlsx,.doc,.docx,.hwp'/>
-                        <@spring.formInput "documentVersion.uploadRfKorFile" "class='form-control' placeholder='RF Document File(KOR)' accept='${accept}'" "file"/>
+                        <@spring.formInput "documentVersion.uploadRfKorFile" "class='form-control' placeholder='${formName} Document File(KOR)' accept='${accept}'" "file"/>
                         <@spring.showErrors "" "color:red;"/>
                     </div>
                 </div>
@@ -197,7 +202,7 @@
                     <label class="col-sm-3 control-label">View PDF File (KOR)</label>
                     <div class="col-sm-9">
                         <#assign accept = '.pdf'/>
-                        <@spring.formInput "documentVersion.uploadHwpKorPdfFile" "class='form-control' placeholder='RF Document File(ENG)' accept='${accept}'" "file"/>
+                        <@spring.formInput "documentVersion.uploadHwpKorPdfFile" "class='form-control' placeholder='${formName} Document File(ENG)' accept='${accept}'" "file"/>
                         <small style="color:red;">해당 입력 창에 PDF 파일을 업로드 하지 않았을 경우, 한글 문서(hwp)에 대한 뷰어가 적용되지 않습니다.</small>
                     </div>
                 </div>

@@ -16,7 +16,7 @@
             <th class="text-center">Document No</th>
             <th class="text-center">Doc Id</th>
             <th class="text-center">title</th>
-            <th class="text-center">RF List</th>
+            <th class="text-center">${formName} List</th>
         </tr>
         </thead>
         <tbody>

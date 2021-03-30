@@ -69,6 +69,9 @@ public class AdminSOPController {
     @Value("${form.prefix}")
     private String formPrefix;
 
+    @Value("${form.name}")
+    private String formName;
+
     @GetMapping("/management/{status}")
     public String management(@PathVariable("type") DocumentType type,
                              @PathVariable("status") String stringStatus,
@@ -84,6 +87,8 @@ public class AdminSOPController {
         model.addAttribute("type", type);
         model.addAttribute("searchDocId", docId);
         model.addAttribute("documentList", documentVersionService.findAll(documentVersionService.getAdminSOPPredicate(type, status, categoryId, docId), pageable));
+
+        model.addAttribute( "formName", formName);
         return "admin/sop/list";
     }
 
@@ -182,7 +187,7 @@ public class AdminSOPController {
         //2021-03-17 YSH :: SOP/RF Prefix 값 전달
         model.addAttribute("sopPrefix", sopPrefix);
         model.addAttribute("formPrefix", formPrefix);
-
+        model.addAttribute("formName", formName);
         return "admin/sop/edit";
     }
 
@@ -204,6 +209,7 @@ public class AdminSOPController {
             //2021-03-17 YSH :: SOP/RF Prefix 값 전달
             model.addAttribute("sopPrefix", sopPrefix);
             model.addAttribute("formPrefix", formPrefix);
+            model.addAttribute("formName", formName);
 
             return "admin/sop/edit";
         }
