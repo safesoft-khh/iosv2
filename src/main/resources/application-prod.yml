@@ -52,7 +52,7 @@ spring:
   datasource:
     driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
 #    url: jdbc:sqlserver://183.111.104.67:20170;DatabaseName=dtnc
-    url: jdbc:sqlserver://192.168.9.183:20170;DatabaseName=cauh_dev
+    url: jdbc:sqlserver://192.168.9.183:20170;DatabaseName=dkuh_dev
     username: sa
     password: safe123!@#
 
