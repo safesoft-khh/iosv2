@@ -2,12 +2,9 @@
 <#import "/common/pagination.ftl" as pagination />
 <html>
 <head>
-    <title>ISO Management System > Admin > SOP/RD Access Log</title>
-
+    <title>ISO Management System > Admin > SOP/${formName} Access Log</title>
 </head>
 <body>
-
-
 
 <div class="panel">
     <!--Data Table-->

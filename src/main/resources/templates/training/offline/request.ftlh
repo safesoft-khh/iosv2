@@ -41,7 +41,7 @@
                 <label class="col-md-3 control-label">Organization</label>
                 <div class="col-md-9">
 <#--                    <input type="email" id="demo-email-input" class="form-control" placeholder="Enter your email">-->
-                    <@spring.formInput "offlineTraining.organization" "class='form-control' placeholder='Team/Department'"/>
+                    <@spring.formInput "offlineTraining.organization" "class='form-control' placeholder='Organization'"/>
                     <@spring.showErrors "" "color:red;"/>
 <#--                    <small class="help-block">(Academy, Self-training, etc.)</small>-->
                 </div>

@@ -86,6 +86,10 @@ public class ExternalCustomerController {
     @Value("${site.company-title}")
     private String siteCompanyTitle;
 
+    @Value("${form.name}")
+    private String formName;
+
+
     @GetMapping("/external/notice")
     public String externNoticeList(@PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC, size = 15) Pageable pageable, Model model){
         QNotice qNotice = QNotice.notice;
@@ -233,6 +237,8 @@ public class ExternalCustomerController {
 
             model.addAttribute("sopId", sopId);
             model.addAttribute("status", status);
+
+            model.addAttribute("formName", formName);
 
             return "sop/external-list";
         } else {

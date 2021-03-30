@@ -28,7 +28,7 @@ public class ExternalCustomerCheckInterceptor extends HandlerInterceptorAdapter 
                 if (user.isAgreementCollectUse()) {
                     log.trace("@PreHandle @Username : {} Agreement to Collect 1Use 동의 처리 되어 있음.", user.getUsername());
                     if (user.isNonDisclosureAgreement()) {
-                        if (!uri.startsWith("/external") && !uri.startsWith("/rd/view") && !uri.startsWith("/sop/effective/viewer") && !uri.startsWith("/sop/superseded/viewer")) {
+                        if (!uri.startsWith("/external") && !uri.startsWith("/rf/view") && !uri.startsWith("/sop/effective/viewer") && !uri.startsWith("/sop/superseded/viewer")) {
                             log.info("@PreCheck SOP, Digital Binder 를 제외한 메뉴는 접근 불가 : [{}]", uri);
 
                             response.sendRedirect("/external/sop/effective");

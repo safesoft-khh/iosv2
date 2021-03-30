@@ -352,9 +352,8 @@
 
 
         .signup-image {
-            /*display: flex;
-            justify-content: center;
-            align-items: center;*/
+            /*display: flex;*/
+            text-align: center;
             margin-right: 50px;
         }
 

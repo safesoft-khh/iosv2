@@ -35,9 +35,9 @@
             <#elseif audit == 'certifications'>
                 &nbsp;인증 현황
             <#elseif audit == 'document'>
-                &nbsp;SOP/RF
+                &nbsp;SOP/${formName}
             <#elseif audit == 'documentVersion'>
-                &nbsp;SOP/RF Version
+                &nbsp;SOP/${formName} Version
             <#elseif audit == 'iso'>
                 &nbsp;ISO 14155
             <#elseif audit == 'sop-training'>
@@ -59,8 +59,8 @@
             <a href="/admin/change-control/user-role" class="btn btn-mini btn-primary btn-justified ${(audit == 'user-role')?then('active', '')}">User Role Change</a>
             <a href="/admin/change-control/notice" class="btn btn-mini btn-primary btn-justified ${(audit == 'notice')?then('active', '')}">공지사항</a>
             <a href="/admin/change-control/certifications" class="btn btn-mini btn-primary btn-justified ${(audit == 'certifications')?then('active', '')}">인증현황</a>
-            <a href="/admin/change-control/document" class="btn btn-mini btn-primary btn-justified ${(audit == 'document')?then('active', '')}">SOP/RF</a>
-            <a href="/admin/change-control/documentVersion" class="btn btn-mini btn-primary btn-justified ${(audit == 'documentVersion')?then('active', '')}">SOP/RF Version</a>
+            <a href="/admin/change-control/document" class="btn btn-mini btn-primary btn-justified ${(audit == 'document')?then('active', '')}">SOP/${formName}</a>
+            <a href="/admin/change-control/documentVersion" class="btn btn-mini btn-primary btn-justified ${(audit == 'documentVersion')?then('active', '')}">SOP/${formName} Version</a>
             <a href="/admin/change-control/iso" class="btn btn-mini btn-primary btn-justified ${(audit == 'iso')?then('active', '')}">ISO</a>
             <a href="/admin/change-control/sop-training" class="btn btn-mini btn-primary btn-justified ${(audit == 'sop-training')?then('active', '')}">SOP Training</a>
             <a href="/admin/change-control/iso-training" class="btn btn-mini btn-primary btn-justified ${(audit == 'iso-training')?then('active', '')}">ISO Training</a>

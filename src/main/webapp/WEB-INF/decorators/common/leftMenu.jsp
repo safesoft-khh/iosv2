@@ -7,10 +7,13 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <sec:authentication property="principal.commaJobTitle" var="jobTitle"/>
 <sec:authentication property="principal.training" var="training"/>
 <sec:authentication property="principal" var="user"/>
+
+<spring:eval expression="@environment.getProperty('site.iso-title')" var="isoTitle" />
 <c:set var="isTraining" value="${training eq true and not empty jobTitle}"/>
 <ul id="mainnav-menu" class="list-group" style="margin-top:10px !important;">
 
@@ -48,7 +51,7 @@
         </a>
         <!--Submenu-->
         <ul class="collapse" aria-expanded="false">
-            <li><a href="/iso-14155">ISO 14155</a></li>
+            <li><a href="/iso-14155">${isoTitle}</a></li>
         </ul>
     </li>
     <li>

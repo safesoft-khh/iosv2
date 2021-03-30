@@ -70,7 +70,7 @@
     <tr>
         <td class="bg-gray-light">Requested Documents</td>
         <td>
-            <h6>[SOP/RF]</h6>
+            <h6>[SOP/${formName}]</h6>
             <#list approvalView.sopDisclosureRequestForm.requestedDocumentSOPs as sop>
                 <div>
                     <small><span class="label label-purple">SOP</span> ${sop.documentVersion.document.docId}/${sop.documentVersion.document.title}/${sop.documentVersion.version}</small>
@@ -79,7 +79,7 @@
             <#if approvalView.sopDisclosureRequestForm.requestedDocumentRFs?has_content>
                 <#list approvalView.sopDisclosureRequestForm.requestedDocumentRFs as rf>
                     <div>
-                        <small><span class="label label-important label-info">RF</span> ${rf.documentVersion.document.docId}/${rf.documentVersion.document.title}/${rf.documentVersion.version}</small>
+                        <small><span class="label label-important label-info">${formName}</span> ${rf.documentVersion.document.docId}/${rf.documentVersion.document.title}/${rf.documentVersion.version}</small>
                     </div>
                 </#list>
             </#if>

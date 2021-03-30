@@ -7,6 +7,7 @@ import com.cauh.iso.admin.domain.constant.AuditComponent;
 import com.cauh.iso.admin.service.ChangeAuditService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -32,6 +33,9 @@ public class AdminChangeControlController {
     private final UserRepository userRepository;
     private final ChangeAuditService changeAuditService;
 
+    @Value("${form.name}")
+    private String formName;
+
     @GetMapping({"/change-control", "/change-control/{audit}"})
     public String changeControl(@PageableDefault(size = 15) Pageable pageable,
             @PathVariable(value = "audit", required = false) String auditString, RedirectAttributes attributes, Model model) {
@@ -53,6 +57,7 @@ public class AdminChangeControlController {
 
         model.addAttribute("auditList", revisionAuditList);
         model.addAttribute("viewName", auditComponent.getViewName());
+        model.addAttribute("formName", formName);
 
         return "admin/audit/changeControl";
     }

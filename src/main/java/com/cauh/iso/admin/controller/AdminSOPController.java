@@ -41,6 +41,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.WebUtils;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
@@ -65,6 +66,12 @@ public class AdminSOPController {
     @Value("${sop.prefix}")
     private String sopPrefix;
 
+    @Value("${form.prefix}")
+    private String formPrefix;
+
+    @Value("${form.name}")
+    private String formName;
+
     @GetMapping("/management/{status}")
     public String management(@PathVariable("type") DocumentType type,
                              @PathVariable("status") String stringStatus,
@@ -80,6 +87,8 @@ public class AdminSOPController {
         model.addAttribute("type", type);
         model.addAttribute("searchDocId", docId);
         model.addAttribute("documentList", documentVersionService.findAll(documentVersionService.getAdminSOPPredicate(type, status, categoryId, docId), pageable));
+
+        model.addAttribute( "formName", formName);
         return "admin/sop/list";
     }
 
@@ -151,7 +160,6 @@ public class AdminSOPController {
                 TreeMap<String, String> statusMap = new TreeMap<>();
                 statusMap.put(DocumentStatus.APPROVED.name(), DocumentStatus.APPROVED.getLabel());
                 statusMap.put(DocumentStatus.EFFECTIVE.name(), DocumentStatus.EFFECTIVE.getLabel());
-
                 model.addAttribute("statusMap", statusMap);
             } else if(action == SOPAction.edit) {
                 QDocumentVersion qDocumentVersion = QDocumentVersion.documentVersion;
@@ -176,9 +184,10 @@ public class AdminSOPController {
             model.addAttribute("languageMap", languageMap);
         }
 
-        //2021-03-17 YSH :: SOP Prefix 값 전달
+        //2021-03-17 YSH :: SOP/RF Prefix 값 전달
         model.addAttribute("sopPrefix", sopPrefix);
-
+        model.addAttribute("formPrefix", formPrefix);
+        model.addAttribute("formName", formName);
         return "admin/sop/edit";
     }
 
@@ -188,6 +197,7 @@ public class AdminSOPController {
                        @PathVariable("stringStatus") String stringStatus, @PathVariable(value = "id", required = false) String id, @ModelAttribute("documentVersion") DocumentVersion documentVersion,
                        BindingResult bindingResult, SessionStatus sessionStatus,
                        @PathVariable(value = "action", required = false) SOPAction action,
+                       HttpServletRequest request,
                        RedirectAttributes attributes, Model model) {
 
         documentVersionValidator.validate(documentVersion, bindingResult);
@@ -196,8 +206,10 @@ public class AdminSOPController {
         if(bindingResult.hasErrors()) {
             log.debug("--- Document Version Validate ---\n{}", bindingResult.getAllErrors());
 
-            //2021-03-17 YSH :: SOP Prefix 값 전달
+            //2021-03-17 YSH :: SOP/RF Prefix 값 전달
             model.addAttribute("sopPrefix", sopPrefix);
+            model.addAttribute("formPrefix", formPrefix);
+            model.addAttribute("formName", formName);
 
             return "admin/sop/edit";
         }

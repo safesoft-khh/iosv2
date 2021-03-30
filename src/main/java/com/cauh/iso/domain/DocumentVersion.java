@@ -126,7 +126,11 @@ public class DocumentVersion extends BaseEntity implements Serializable {
     @Transient
     private MultipartFile uploadRfKorFile;
     @Transient
+    private MultipartFile uploadHwpKorPdfFile;
+    @Transient
     private MultipartFile uploadRfEngFile;
+    @Transient
+    private MultipartFile uploadHwpEngPdfFile;
     @Transient
     private SOPAction action;
 
@@ -188,6 +192,9 @@ public class DocumentVersion extends BaseEntity implements Serializable {
     @Column(name = "rf_eng_file_name", columnDefinition = "nvarchar(255)")
     private String rfEngFileName;
 
+    @Column(name = "rf_eng_hwp_pdf_file_name", columnDefinition = "nvarchar(255)")
+    private String rfEngHwpPdfFileName;
+
     @Column(name = "rf_eng_original_file_name", columnDefinition = "nvarchar(255)")
     private String rfEngOriginalFileName;
 
@@ -204,6 +211,9 @@ public class DocumentVersion extends BaseEntity implements Serializable {
     /** rf kor file **/
     @Column(name = "rf_kor_file_name", columnDefinition = "nvarchar(255)")
     private String rfKorFileName;
+
+    @Column(name = "rf_kor_hwp_pdf_file_name", columnDefinition = "nvarchar(255)")
+    private String rfKorHwpPdfFileName;
 
     @Column(name = "rf_kor_original_file_name", columnDefinition = "nvarchar(255)")
     private String rfKorOriginalFileName;

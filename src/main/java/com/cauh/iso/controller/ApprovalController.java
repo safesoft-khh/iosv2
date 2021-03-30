@@ -60,6 +60,10 @@ public class ApprovalController {
     @Value("${sop.deviation-doc-id}")
     private String DeviationDocId;
 
+    @Value("${form.name}")
+    private String formName;
+
+
     @GetMapping({"/approval/box/{type}", "/approval/box/{type}/{status}"})
     public String totalList(@PathVariable("type") ApprovalLineType type,
                             @PathVariable(value = "status", required = false) ApprovalStatus status,
@@ -124,6 +128,7 @@ public class ApprovalController {
         log.info("isRenew : {}, approvalId : {}", approval.isRenew(), approval.getId());
         model.addAttribute("approval", approval);
         model.addAttribute("lineType", lineType);
+        model.addAttribute("formName", formName);
 
         return "approval/approvalForm";
     }

@@ -33,8 +33,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -61,6 +64,9 @@ public class DocumentVersionService {
 
     @Value("${sop.prefix}")
     private String sopPrefix;
+
+    @Value("${form.name}")
+    private String formName;
 
     private QDocumentVersion qDocumentVersion = QDocumentVersion.documentVersion;
 
@@ -126,14 +132,14 @@ public class DocumentVersionService {
 
         //CASE 1. 신규 Document 생성
         if(ObjectUtils.isEmpty(sopAction)){
-            title = "신규 SOP/RF가 등록 되었습니다.";
+            title = "신규 SOP/"+formName+"이 등록 되었습니다.";
             model.put("title", String.format("[%s] %s가 등록 되었습니다.", documentVersion.getStatus().getLabel(), documentVersion.getDocument().getType().name()));
         }else if(sopAction == SOPAction.edit) {
-            title = "기존 SOP/RF의 정보가 수정 되었습니다.";
+            title = "기존 SOP/"+formName+"의 정보가 수정 되었습니다.";
             model.put("title", String.format("[%s] %s가 수정되었습니다.", documentVersion.getStatus().getLabel(), documentVersion.getDocument().getType().name()));
 
         }else if(sopAction == SOPAction.revision) {
-            title = "기존 SOP/RF가 개정되었습니다.";
+            title = "기존 SOP/"+formName+"이 개정되었습니다.";
             model.put("title", String.format("[%s] %s가 개정되었습니다.", documentVersion.getStatus().getLabel(), documentVersion.getDocument().getType().name()));
         }
 
@@ -198,7 +204,7 @@ public class DocumentVersionService {
                 documentVersionRepository.deleteById(id);
             }
         }
-        log.info("<== SOP/RF 삭제 완료 ID : {}", id);
+        log.info("<== SOP/"+formName+" 삭제 완료 ID : {}", id);
     }
 
     public DocumentVersion retirement(String docVerId, Date retirementDate) {
@@ -259,6 +265,13 @@ public class DocumentVersionService {
         //RF(KOR)
         if(!ObjectUtils.isEmpty(documentVersion.getUploadRfKorFile()) && !documentVersion.getUploadRfKorFile().isEmpty()) {
             String fileName = fileStorageService.storeFile(documentVersion.getUploadRfKorFile(), documentVersion.getId()+"_KOR");
+
+            //2021-03-24 YSH :: UploadHwpKorPdfFile이 있으면 같이 업로드
+            if(!ObjectUtils.isEmpty(documentVersion.getUploadHwpKorPdfFile()) && !documentVersion.getUploadHwpKorPdfFile().isEmpty()) {
+                String pdfFileName = fileStorageService.storeFile(documentVersion.getUploadHwpKorPdfFile(), documentVersion.getId() + "_KOR_PDF");
+                documentVersion.setRfKorHwpPdfFileName(pdfFileName);
+            }
+
             String ext = fileName.substring(fileName.lastIndexOf(".") + 1);
 
             documentVersion.setRfKorFileName(fileName);
@@ -266,11 +279,19 @@ public class DocumentVersionService {
             documentVersion.setRfKorFileType(documentVersion.getUploadRfKorFile().getContentType());
             documentVersion.setRfKorFileSize(documentVersion.getUploadRfKorFile().getSize());
             documentVersion.setRfKorExt(ext);
+
         }
+
         //RF(ENG)
         if(!ObjectUtils.isEmpty(documentVersion.getUploadRfEngFile()) && !documentVersion.getUploadRfEngFile().isEmpty()) {
             String fileName = fileStorageService.storeFile(documentVersion.getUploadRfEngFile(), documentVersion.getId()+"_ENG");
             String ext = fileName.substring(fileName.lastIndexOf(".") + 1);
+
+            //2021-03-24 YSH :: UploadHwpEngPdfFile이 있으면 같이 업로드
+            if(!ObjectUtils.isEmpty(documentVersion.getUploadHwpEngPdfFile()) && !documentVersion.getUploadHwpEngPdfFile().isEmpty()) {
+                String pdfFileName = fileStorageService.storeFile(documentVersion.getUploadHwpEngPdfFile(), documentVersion.getId() + "_ENG_PDF");
+                documentVersion.setRfEngHwpPdfFileName(pdfFileName);
+            }
 
             documentVersion.setRfEngFileName(fileName);
             documentVersion.setRfEngOriginalFileName(documentVersion.getUploadRfEngFile().getOriginalFilename());
@@ -426,7 +447,7 @@ public class DocumentVersionService {
     @Async("threadPoolTaskExecutor")
     @Transactional
     public void approvedToEffective() {
-        log.info("==> Approved 상태인 SOP/RF를 Effective 상태로 변경 처리한다.");
+        log.info("==> Approved 상태인 SOP/"+formName+"를 Effective 상태로 변경 처리한다.");
         Date now = DateUtils.truncate(new Date());
 
         List<DocumentVersion> effectiveSOPs = getApprovedToEffectiveDocuments(DocumentType.SOP, now);
@@ -437,7 +458,7 @@ public class DocumentVersionService {
         log.debug("현재 기준 approved -> effective 되어야 하는 대상 SOP:{}/RF:{}", effectiveSOPs.size(), effectiveRFs.size());
 
 //        StringBuilder sb = new StringBuilder("[SOP 공지]");
-        String subject = "[ISO MS] SOPs(RFs) Notification";
+        String subject = "[ISO MS] SOPs("+formName+"s) Notification";
         if(hasEffectiveSOPs) {
 //            String categoryNames = effectiveSOPs.stream().map(d -> d.getDocument().getCategory().getShortName()).distinct().sorted().collect(Collectors.joining(","));
 //            sb.append(categoryNames).append(" SOP");
@@ -451,9 +472,9 @@ public class DocumentVersionService {
 
         if(hasEffectiveRFs) {
 //            sb.append(" 및 RF");
-            log.debug("-> RF effective 처리 시작");
+            log.debug("-> "+formName+" effective 처리 시작");
             updateDocumentVersionStatus(effectiveRFs);
-            log.debug("<- RF effective 처리 완료");
+            log.debug("<- "+formName+" effective 처리 완료");
         }
 
 //        Iterable<RetirementDocument> retirementSOPDocuments = retirementDocumentService.findRetirementDocs(now, DocumentType.SOP);
@@ -462,7 +483,7 @@ public class DocumentVersionService {
         //2021-02-04 : Retirement 작업
         List<DocumentVersion> retirementSOPs = getEffectiveToSupersededDocuments(DocumentType.SOP, now);
         List<DocumentVersion> retirementRFs = getEffectiveToSupersededDocuments(DocumentType.RF, now);
-        log.debug("현재 기준 effective -> superseded 되어야 하는 대상 SOP:{}/RF:{}", retirementSOPs.size(), retirementRFs.size());
+        log.debug("현재 기준 effective -> superseded 되어야 하는 대상 SOP:{}/"+formName+":{}", retirementSOPs.size(), retirementRFs.size());
 
         boolean hasRetirementSOPs = ObjectUtils.isEmpty(retirementSOPs) == false;
         boolean hasRetirementRFs = ObjectUtils.isEmpty(retirementRFs) == false;
@@ -475,9 +496,9 @@ public class DocumentVersionService {
         }
 
         if(hasRetirementRFs) {
-            log.debug("-> RF retirement 처리 시작");
+            log.debug("-> "+formName+" retirement 처리 시작");
             retirementDocumentStatus(retirementRFs);
-            log.debug("-> RF retirement 처리 완료");
+            log.debug("-> "+formName+" retirement 처리 완료");
         }
 
         if(hasRetirementSOPs || hasRetirementRFs || hasRetirementSOPs || hasRetirementRFs) {
@@ -543,16 +564,16 @@ public class DocumentVersionService {
                 Iterable<DocumentVersion> iterable = findAll(getPredicate(DocumentType.RF, DocumentStatus.EFFECTIVE, null, null, null));
                 List<DocumentVersion> documentVersions = StreamSupport.stream(iterable.spliterator(), false).collect(Collectors.toList());
                 model.clear();
-                model.put("currentRFs", documentVersions);
+                model.put("current"+formName+"s", documentVersions);
                 Notice sopNotice = Notice.builder()
-                        .title("Current RF List("+ DateUtils.format(new Date(), "yyyy.MM.dd") +"일자)")
+                        .title("Current "+formName+" List("+ DateUtils.format(new Date(), "yyyy.MM.dd") +"일자)")
                         .content(mailService.processTemplate("rf-index-notice.ftlh", model, null))
                         .postStatus(PostStatus.NONE)
                         .topViewEndDate(DateUtils.addDay(new Date(), 10))
                         .build();
 
                 Notice savedSopNotice = noticeService.save(sopNotice, null);
-                log.info("=> RF Current Index 공지 등록 : {}", savedSopNotice);
+                log.info("=> "+formName+" Current Index 공지 등록 : {}", savedSopNotice);
             }
         }
     }

@@ -28,6 +28,9 @@ public class ApprovalValidator implements Validator {
     @Value("${sop.prefix}")
     private String sopPrefix;
 
+    @Value("${form.name}")
+    private String formName;
+
     @Override
     public boolean supports(Class<?> aClass) {
         return false;

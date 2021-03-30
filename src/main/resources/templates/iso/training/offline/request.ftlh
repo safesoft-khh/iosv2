@@ -39,7 +39,7 @@
             <div class="form-group">
                 <label class="col-md-3 control-label">Organization</label>
                 <div class="col-md-9">
-                    <@spring.formInput "isoOfflineTraining.organization" "class='form-control' placeholder='Team/Department'"/>
+                    <@spring.formInput "isoOfflineTraining.organization" "class='form-control' placeholder='Organization'"/>
                     <@spring.showErrors "" "color:red;"/>
                 </div>
             </div>

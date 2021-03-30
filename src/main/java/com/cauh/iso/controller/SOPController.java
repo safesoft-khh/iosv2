@@ -18,6 +18,7 @@ import com.querydsl.core.BooleanBuilder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.pdfbox.tools.imageio.ImageIOUtil;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -67,6 +68,9 @@ public class SOPController {
 
     private final DocumentAccessLogService documentAccessLogService;
     private final DocumentVersionRepository documentVersionRepository;
+
+    @Value("${form.name}")
+    private String formName;
 
     public static <T> Predicate<T> distinctByKey(
             Function<? super T, ?> keyExtractor) {
@@ -153,6 +157,8 @@ public class SOPController {
         model.addAttribute("sopId", sopId);
         model.addAttribute("status", status);
         model.addAttribute("sopList", filteredList);
+
+        model.addAttribute("formName", formName);
         return "sop/list";
     }
 
@@ -218,12 +224,33 @@ public class SOPController {
 
         documentAccessLogService.save(documentVersion, DocumentAccessType.VIEWER);
 
+
         if("kor".equals(lang)) {
-            Resource resource = fileStorageService.loadFileAsResource(documentVersion.getRfKorFileName());
-            documentViewer.toHTML(documentVersion.getRfKorExt(), resource.getInputStream(), response.getOutputStream());
+            Resource resource = null;
+
+            //.hwp일 때, 같이 업로드 한 PDF 파일로 뷰어 열기.
+            if(documentVersion.getRfKorFileName().endsWith(".hwp")) {
+                if(!ObjectUtils.isEmpty(documentVersion.getRfKorHwpPdfFileName())) {
+                    resource = fileStorageService.loadFileAsResource(documentVersion.getRfKorHwpPdfFileName());
+                    documentViewer.toHTML("pdf", resource.getInputStream(), response.getOutputStream());
+                }
+            } else {
+                resource = fileStorageService.loadFileAsResource(documentVersion.getRfKorFileName());
+                documentViewer.toHTML(documentVersion.getRfKorExt(), resource.getInputStream(), response.getOutputStream());
+            }
         } else if("eng".equals(lang)) {
-            Resource resource = fileStorageService.loadFileAsResource(documentVersion.getRfEngFileName());
-            documentViewer.toHTML(documentVersion.getRfEngExt(), resource.getInputStream(), response.getOutputStream());
+            Resource resource = null;
+
+            //.hwp일 때, 같이 업로드 한 PDF 파일로 뷰어 열기.
+            if(documentVersion.getRfEngFileName().endsWith(".hwp")) {
+                if(!ObjectUtils.isEmpty(documentVersion.getRfEngHwpPdfFileName())) {
+                    resource = fileStorageService.loadFileAsResource(documentVersion.getRfEngHwpPdfFileName());
+                    documentViewer.toHTML("pdf", resource.getInputStream(), response.getOutputStream());
+                }
+            } else {
+                resource = fileStorageService.loadFileAsResource(documentVersion.getRfEngFileName());
+                documentViewer.toHTML(documentVersion.getRfEngExt(), resource.getInputStream(), response.getOutputStream());
+            }
         } else {
             throw new RuntimeException("지원하지 않는 언어["+lang+"] 파일 입니다.");
         }

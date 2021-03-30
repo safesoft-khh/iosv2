@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jxls.common.Context;
 import org.jxls.util.JxlsHelper;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -52,6 +53,10 @@ public class AdminApprovalController {
     private final UserJobDescriptionService userJobDescriptionService;
     private final SopRfRetirementApprovalFormService sopRfRetirementApprovalFormService;
 
+    @Value("${form.name}")
+    private String formName;
+
+
     @GetMapping({"/approval", "/approval/{status}"})
     public String totalList(@PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC, size = 15) Pageable pageable,
                             @PathVariable(value = "status", required = false) ApprovalStatus status,
@@ -79,6 +84,8 @@ public class AdminApprovalController {
         model.addAttribute("approvalView", approval);
         model.addAttribute("status", status);
 
+        model.addAttribute("formName", formName);
+
         return "admin/approval/view";
     }
 
@@ -86,6 +93,7 @@ public class AdminApprovalController {
     public String delete(@PathVariable(value = "id") Integer id,
                          @PathVariable(value = "status", required = false) ApprovalStatus status, RedirectAttributes attributes) {
         approvalService.delete(id);
+
 
         attributes.addFlashAttribute("message", "삭제 되었습니다.");
         if(ObjectUtils.isEmpty(status)) {

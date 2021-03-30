@@ -1,5 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<spring:eval expression="@environment.getProperty('form.name')" var="formName" />
+
 <ul id="mainnav-menu" class="list-group" style="margin-top:10px !important;">
 
     <li>
@@ -28,16 +32,16 @@
     <li>
         <a href="#" aria-expanded="false">
             <i class="pli-file"></i>
-            <span class="menu-title">RF Management</span>
+            <span class="menu-title">${formName} Management</span>
             <i class="arrow"></i>
         </a>
         <!--Submenu-->
         <ul class="collapse" aria-expanded="false">
             <%--            <li><a href="/admin/RD/management/development">Development</a></li>--%>
             <%--            <li><a href="/admin/RD/management/revision">Revision</a></li>--%>
-            <li><a href="/admin/RF/management/approved">Approved RF</a></li>
-            <li><a href="/admin/RF/management/effective">Effective RF</a></li>
-            <li><a href="/admin/RF/management/superseded">Superseded RF</a></li>
+            <li><a href="/admin/RF/management/approved">Approved ${formName}</a></li>
+            <li><a href="/admin/RF/management/effective">Effective ${formName}</a></li>
+            <li><a href="/admin/RF/management/superseded">Superseded ${formName}</a></li>
 <%--            <li><a href="/admin/RF/management/retirement">Retirement RF</a></li>--%>
         </ul>
 
@@ -123,7 +127,7 @@
         <!--Submenu-->
         <ul class="collapse" aria-expanded="false">
             <li><a href="/admin/iso/accessLog">ISO Access Log</a></li>
-            <li><a href="/admin/document/accessLog">SOP/RF Access Log</a></li>
+            <li><a href="/admin/document/accessLog">SOP/${formName} Access Log</a></li>
             <li><a href="/admin/training/accessLog">Training Access Log</a></li>
 <%--            <li><a href="#" style="color:red;">Change Control(작업중)</a></li>--%>
             <li><a href="/admin/change-control">Change Control</a></li>

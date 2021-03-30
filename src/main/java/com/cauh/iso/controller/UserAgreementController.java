@@ -88,6 +88,82 @@ public class UserAgreementController {
         return result;
     }
 
+    @GetMapping("/internal-user-terms-of-use")
+    public String internalUserTermsOfUse(@CurrentUser Account user, Model model){
+        Boolean isAPI = agreementPersonalInformationService.findOneAgreementPersonalInformation(user).isPresent();
+        Boolean isCP = confidentialityPledgeService.findOneConfidentialityPledge(user).isPresent();
+
+        if(isAPI && isCP) {
+            log.debug("@내부 사용자 이용 약관 / 이미 동의한 내역이 있음 : {}", user.getUsername());
+            return "redirect:/";
+        }
+
+        //내부 사용자 개인 정보 활용 동의
+        AgreementPersonalInformation agreementPersonalInformation = new AgreementPersonalInformation();
+        agreementPersonalInformation.setEmail(user.getEmail());
+        agreementPersonalInformation.setAgree(true);
+        agreementPersonalInformation.setInternalUser(user);
+
+        //내부 사용자 비밀 보장 서약
+        ConfidentialityPledge confidentialityPledge = new ConfidentialityPledge();
+        confidentialityPledge.setEmail(user.getEmail());
+        confidentialityPledge.setInternalUser(user);
+        confidentialityPledge.setAgree(true);
+
+        if(user.isSignature()) {
+            Signature signature = signatureRepository.findById(user.getUsername()).get();
+            model.addAttribute("signatureData", signature.getBase64signature());
+        }
+
+        //서식 정보 포함.
+        model.addAttribute("agreementPersonalInformation", agreementPersonalInformation);
+        model.addAttribute("confidentialityPledge", confidentialityPledge);
+
+        //2021.03.16 - 이미지 로고 / 회사 이름 공통화
+        model.addAttribute("imageLogo", imageLogo);
+        model.addAttribute("siteCompanyKorTitle", siteCompanyTitle);
+        model.addAttribute("isoTitle", isoTitle);
+
+        return "common/internalUserTermsOfUse";
+    }
+
+    @PostMapping("/internal-user-terms-of-use")
+    @Transactional
+    public String internalUserTermsOfUseProc(@ModelAttribute("agreementPersonalInformation") AgreementPersonalInformation agreementPersonalInformation,
+                                             @ModelAttribute("confidentialityPledge") ConfidentialityPledge confidentialityPledge,
+                                             SessionStatus status, @CurrentUser Account user){
+
+
+        Optional<AgreementPersonalInformation> agreementPersonalInformationOptional = agreementPersonalInformationService.findOneAgreementPersonalInformation(user);
+        if(agreementPersonalInformationOptional.isPresent()) {
+            AgreementPersonalInformation originAgreementPersonalInformation = agreementPersonalInformationOptional.get();
+            agreementPersonalInformation.setId(originAgreementPersonalInformation.getId());
+        }
+
+        AgreementPersonalInformation savedAgreementPersonalInformation = agreementPersonalInformationService.save(agreementPersonalInformation);
+        log.debug("@저장된 개인 정보 활용 동의 : {}", savedAgreementPersonalInformation);
+
+        //기존 내역이 존재하면, 새로 저장하려는 동의 정보에 동의 여부를 true로 하여 재지정.
+        Optional<ConfidentialityPledge> confidentialityPledgeOptional = confidentialityPledgeService.findOneConfidentialityPledge(user);
+        if(confidentialityPledgeOptional.isPresent()) {
+            ConfidentialityPledge originConfidentialityPledge = confidentialityPledgeOptional.get();
+            confidentialityPledge.setId(originConfidentialityPledge.getId());
+        }
+
+        ConfidentialityPledge savedConfidentialityPledge1 = confidentialityPledgeService.save(confidentialityPledge);
+        log.debug("@저장된 비밀 보장 서약 동의 : {}", savedAgreementPersonalInformation);
+
+        //내부 사용자인 경우, Profile에 저장되는 서명 정보 저장.
+        saveSignature(user, savedAgreementPersonalInformation);
+
+        status.setComplete();
+        user.setAgreementCollectUse(true);
+        user.setConfidentialityPledge(true);
+        updateAuthentication(user);
+        return "redirect:/";
+    }
+
+
     /**
      * 개인정보 활용동의
      * @param user
@@ -135,7 +211,7 @@ public class UserAgreementController {
             agreementPersonalInformation.setExternalCustomer(ExternalCustomer.builder().id(user.getExternalCustomerId()).build());
         }
 
-        model.addAttribute("agreeMaps", agreementPersonalInformationService.getAgreeMap());
+        //model.addAttribute("agreeMaps", agreementPersonalInformationService.getAgreeMap());
         model.addAttribute("agreementPersonalInformation", agreementPersonalInformation);
 
         //2021.03.16 - 이미지 로고 / 회사 이름 공통화
@@ -156,26 +232,28 @@ public class UserAgreementController {
     @PostMapping("/agreement-to-collect-and-use-personal-information")
     @Transactional
     public String agreementCollectUse(@ModelAttribute("agreementPersonalInformation") AgreementPersonalInformation agreementPersonalInformation,
-                                      BindingResult result, SessionStatus status, @CurrentUser Account user) {
+                                      SessionStatus status, @CurrentUser Account user) {
 
-        //기존 내역이 존재하면, 새로 저장하려는 동의 정보에 동의 여부를 true로 하여 재지정.
-        Optional<AgreementPersonalInformation> agreementPersonalInformationOptional = agreementPersonalInformationService.findByInternalUser(user);
-        if(agreementPersonalInformationOptional.isPresent()) {
-            AgreementPersonalInformation originAgreementPersonalInformation = agreementPersonalInformationOptional.get();
-            agreementPersonalInformation.setId(originAgreementPersonalInformation.getId());
-            agreementPersonalInformation.setAgree(true);
+
+        //기존 내역이 남아있는 경우 기존 내용에 저장.
+        if(user.getUserType() == UserType.USER) {
+            Optional<AgreementPersonalInformation> agreementPersonalInformationOptional = agreementPersonalInformationService.findOneAgreementPersonalInformation(user);
+            if(agreementPersonalInformationOptional.isPresent()) {
+                AgreementPersonalInformation originAgreementPersonalInformation = agreementPersonalInformationOptional.get();
+                agreementPersonalInformation.setId(originAgreementPersonalInformation.getId());
+            }
+        } else if (user.getUserType() == UserType.AUDITOR) {
+            Optional<AgreementPersonalInformation> agreementPersonalInformationOptional = agreementPersonalInformationService.findOneAgreementPersonalInformation(user.getEmail());
+            if(agreementPersonalInformationOptional.isPresent()) {
+                AgreementPersonalInformation originAgreementPersonalInformation = agreementPersonalInformationOptional.get();
+                agreementPersonalInformation.setId(originAgreementPersonalInformation.getId());
+            }
         }
 
         AgreementPersonalInformation savedAgreementPersonalInformation = agreementPersonalInformationService.save(agreementPersonalInformation);
 
         //내부 사용자인 경우, Profile에 저장되는 서명 정보 저장.
-        if(user.getUserType() == UserType.USER) {
-            Signature signature = new Signature();
-            signature.setId(user.getUsername());
-            signature.setBase64signature(savedAgreementPersonalInformation.getBase64signature());
-
-            signatureRepository.save(signature);
-        }
+        saveSignature(user, savedAgreementPersonalInformation);
 
         status.setComplete();
         user.setAgreementCollectUse(true);
@@ -223,12 +301,11 @@ public class UserAgreementController {
      * @return
      */
     @PostMapping("/confidentiality-pledge")
-    public String confidentialityPledge(@CurrentUser Account user,
-                                        @ModelAttribute("confidentialityPledge") ConfidentialityPledge confidentialityPledge,
-                                        SessionStatus status) {
+    public String confidentialityPledge(@CurrentUser Account user, SessionStatus status,
+                                        @ModelAttribute("confidentialityPledge") ConfidentialityPledge confidentialityPledge) {
 
         //기존 내역이 존재하면, 새로 저장하려는 동의 정보에 동의 여부를 true로 하여 재지정.
-        Optional<ConfidentialityPledge> confidentialityPledgeOptional = confidentialityPledgeService.findByInternalUser(user);
+        Optional<ConfidentialityPledge> confidentialityPledgeOptional = confidentialityPledgeService.findOneConfidentialityPledge(user);
         if(confidentialityPledgeOptional.isPresent()) {
             ConfidentialityPledge originConfidentialityPledge = confidentialityPledgeOptional.get();
             confidentialityPledge.setId(originConfidentialityPledge.getId());
@@ -336,6 +413,15 @@ public class UserAgreementController {
             Authentication authentication = new CustomUsernamePasswordAuthenticationToken(userDetails, null, authorities);
             SecurityContext context = SecurityContextHolder.getContext();
             context.setAuthentication(authentication);
+        }
+    }
+
+    private void saveSignature(@CurrentUser Account user, AgreementPersonalInformation savedAgreementPersonalInformation) {
+        if (user.getUserType() == UserType.USER) {
+            Signature signature = new Signature();
+            signature.setId(user.getUsername());
+            signature.setBase64signature(savedAgreementPersonalInformation.getBase64signature());
+            signatureRepository.save(signature);
         }
     }
 }

@@ -10,6 +10,7 @@ public class WebSiteMeshFilter extends ConfigurableSiteMeshFilter {
 //                .addDecoratorPath("/login", "/WEB-INF/decorators/loginDecorator.jsp")
                 .addDecoratorPath("/admin/**", "/WEB-INF/decorators/adminDecorator.jsp")
                 .addDecoratorPath("/please-enter-your-access-code", "/WEB-INF/decorators/loginDecorator.jsp")
+                .addDecoratorPath("/internal-user-terms-of-use", "/WEB-INF/decorators/loginDecorator.jsp")
                 .addDecoratorPath("/agreement-to-collect-and-use-personal-information", "/WEB-INF/decorators/loginDecorator.jsp")
                 .addDecoratorPath("/non-disclosure-agreement-for-sop", "/WEB-INF/decorators/loginDecorator.jsp")
                 .addDecoratorPath("/confidentiality-pledge", "/WEB-INF/decorators/loginDecorator.jsp")

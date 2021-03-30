@@ -49,6 +49,9 @@ public class MailServiceImpl implements MailService {
     @Value("${mail.notice.address}")
     private String emailAddress;
 
+    @Value("${form.name}")
+    private String formName;
+
     private String EMAIL_PATH = "email/";
 
     public String processTemplate(String fileName, HashMap<String, Object> model, Locale locale) {
@@ -58,9 +61,12 @@ public class MailServiceImpl implements MailService {
             if (ObjectUtils.isEmpty(model)) {
                 model = new HashMap<>();
             }
+
+            //TODO 한경훈 공통분석
             model.put("domain", domain);
             model.put("siteCode", siteCode);
             model.put("footerMsg", footerMsg);
+            model.put("formName", formName);
 
             String html = FreeMarkerTemplateUtils.processTemplateIntoString(template, model);
 

@@ -15,8 +15,8 @@
             <th class="text-center">Version</th>
             <th class="text-center">File Name</th>
             <th class="text-center">Total Page</th>
-            <th class="text-center">RF File Name(KOR)</th>
-            <th class="text-center">RF File Name(ENG)</th>
+            <th class="text-center">${formName} File Name(KOR)</th>
+            <th class="text-center">${formName} File Name(ENG)</th>
             <th class="text-center">Training Matrix</th>
             <th class="text-center">Quiz</th>
             <th class="text-center">Approved Date</th>
