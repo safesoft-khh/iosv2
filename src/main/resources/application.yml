@@ -63,18 +63,11 @@ spring:
       filter:
         enabled: true
   mail:
-    host: smtp.gmail.com
+    host: smtp.office365.com
     port: 587
     protocol: smtp
-    username: safesoft.dev@gmail.com
-    password: sa12fe30
-
-#   중앙대학교 병원
-#    host: smtp.office365.com
-#    port: 587
-#    protocol: smtp
-#    username: ISOCAU@caumc.or.kr
-#    password: ISO14155cau
+    username: ISOCAU@caumc.or.kr
+    password: ISO14155cau
 
     default-encoding: UTF-8
     properties:
