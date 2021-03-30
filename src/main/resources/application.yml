@@ -115,7 +115,7 @@ sop:
 
 form:
   name: "RF"
-  prefix: "-RF-"
+  prefix: "-RF"
 
 cert:
   header: "CAUH-ISO 14155 GCP-"
