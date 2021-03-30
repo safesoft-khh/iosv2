@@ -177,6 +177,7 @@ public class AdminAuthorityController {
 
         builder.and(qUser.enabled.eq(true));
         builder.and(qUser.userType.eq(UserType.USER));
+        builder.and(qUser.userStatus.eq(UserStatus.ACTIVE));
 
         model.addAttribute("account", new Account());
         model.addAttribute("departments", departmentService.getParentDepartment());

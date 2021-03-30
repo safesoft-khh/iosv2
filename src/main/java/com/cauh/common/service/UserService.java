@@ -3,6 +3,9 @@ package com.cauh.common.service;
 
 import com.cauh.common.entity.Account;
 import com.cauh.common.security.authentication.InternalAccountAuthenticationException;
+import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.OrderSpecifier;
+import com.querydsl.core.types.Predicate;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 

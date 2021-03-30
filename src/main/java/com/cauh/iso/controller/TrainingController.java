@@ -5,6 +5,7 @@ import com.cauh.common.entity.QAccount;
 import com.cauh.common.entity.Account;
 import com.cauh.common.entity.TrainingRecord;
 import com.cauh.common.entity.constant.TrainingRecordStatus;
+import com.cauh.common.entity.constant.UserStatus;
 import com.cauh.common.mapper.DeptUserMapper;
 import com.cauh.common.repository.TrainingRecordRepository;
 import com.cauh.common.repository.UserRepository;
@@ -325,6 +326,9 @@ public class TrainingController {
         //userBuilder.and(qUser.empNo.isNotNull());
         userBuilder.and(qUser.training.eq(true));
         userBuilder.and(qUser.enabled.eq(true));
+        userBuilder.and(qUser.userStatus.eq(UserStatus.ACTIVE));
+
+
         Iterable<Account> users = userRepository.findAll(userBuilder, qUser.name.asc());
         model.addAttribute("userMap", StreamSupport.stream(users.spliterator(), false)
 //                .filter(u -> u.getId() != user.getId())

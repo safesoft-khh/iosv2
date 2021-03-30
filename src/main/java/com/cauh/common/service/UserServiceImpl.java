@@ -22,6 +22,8 @@ import com.cauh.iso.repository.ConfidentialityPledgeRepository;
 import com.cauh.iso.repository.NonDisclosureAgreementRepository;
 import com.cauh.iso.service.*;
 import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.OrderSpecifier;
+import com.querydsl.core.types.Predicate;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Sort;
@@ -455,28 +457,6 @@ public class UserServiceImpl implements UserService {
         return null;
     }
 
-
-    protected void userDisabled(List<String> activeUsernames) {
-        log.debug("=> 비활성화 처리 할 계정 정보 확인 ***********");
-        List<String> usernames = userRepository.findAll()
-                .stream().map(user -> user.getUsername())
-                .collect(Collectors.toList());
-
-        usernames.removeAll(activeUsernames);
-
-        if(!ObjectUtils.isEmpty(usernames)) {
-            for(String username : usernames) {
-                log.info("=> @username : {} 비활성화.", username);
-                Account user = userRepository.findByUsername(username).get();
-                user.setEnabled(false);
-
-                userRepository.save(user);
-            }
-        } else {
-            log.info("<= 비활성화 할 계정이 존재하지 않습니다.");
-        }
-    }
-
     protected Date toDate(String empNo) {
         String s = empNo.replace("S", "20");
         return DateUtils.toDate(s.substring(0, s.length() - 2), "yyyyMMdd");
@@ -502,6 +482,7 @@ public class UserServiceImpl implements UserService {
         QAccount qAccount = QAccount.account;
         BooleanBuilder builder = new BooleanBuilder();
         builder.and(qAccount.userType.eq(UserType.USER));
+        builder.and(qAccount.userStatus.eq(UserStatus.ACTIVE));
 
         Iterable<Account> users = userRepository.findAll(builder, Sort.by(Sort.Direction.ASC, "deptName", "teamName"));
         Map<String, String> userAscMap = StreamSupport.stream(users.spliterator(), false)

@@ -3,10 +3,12 @@ package com.cauh.iso.admin.controller;
 import com.cauh.common.entity.Account;
 import com.cauh.common.entity.Department;
 import com.cauh.common.entity.QAccount;
+import com.cauh.common.entity.constant.UserStatus;
 import com.cauh.common.mapper.DeptUserMapper;
 import com.cauh.common.repository.DepartmentRepository;
 import com.cauh.common.repository.UserRepository;
 import com.cauh.common.security.annotation.CurrentUser;
+import com.cauh.common.service.UserService;
 import com.cauh.iso.admin.service.DepartmentService;
 import com.cauh.iso.domain.*;
 import com.cauh.iso.domain.constant.*;
@@ -54,6 +56,7 @@ public class AdminTrainingController {
     private final TrainingPeriodValidator trainingPeriodValidator;
     private final DeptUserMapper deptUserMapper;
     private final DepartmentService departmentService;
+    private final UserService userService;
     private final UserRepository userRepository;
     private final TrainingMatrixRepository trainingMatrixRepository;
     private final TrainingAccessLogService trainingAccessLogService;
@@ -188,15 +191,44 @@ public class AdminTrainingController {
         model.addAttribute("deptList", departmentService.getParentDepartment());
         Department department = null;
 
+//        boolean isDepart = !ObjectUtils.isEmpty(deptId);
+//        boolean isTeam = !ObjectUtils.isEmpty(deptId);
+//
+//        if(isDepart || isTeam) {
+//            if (isDepart && !isTeam) { //부서만 선택된 경우
+//                department = new Department(deptId);
+//                QAccount qUser = QAccount.account;
+//                BooleanBuilder userBuilder = new BooleanBuilder();
+//                userBuilder.and(qUser.department.id.eq(deptId));
+//                model.addAttribute("userList", userRepository.findAll(userBuilder, qUser.engName.asc()));
+//            } else if (isDepart && isTeam) { //부서 및 팀 모두 선택된 경우
+//                department = new Department(teamId);
+//                QAccount qUser = QAccount.account;
+//                BooleanBuilder userBuilder = new BooleanBuilder();
+//                userBuilder.and(qUser.department.id.eq(teamId));
+//                model.addAttribute("userList", userRepository.findAll(userBuilder, qUser.engName.asc()));
+//            }
+//
+//        }
+
         if(!ObjectUtils.isEmpty(deptId)) {
             department = new Department(deptId);
             model.addAttribute("teamList", departmentService.getChildDepartment(department));
 
-            if (!ObjectUtils.isEmpty(teamId)) {
+            if (!ObjectUtils.isEmpty(teamId)) {//팀아이뒤가 있을 경우
+                QAccount qUser = QAccount.account;
                 department = new Department(teamId);
+                BooleanBuilder userBuilder = new BooleanBuilder();
+                userBuilder.and(qUser.department.eq(department));
+                userBuilder.and(qUser.userStatus.eq(UserStatus.ACTIVE));
+                model.addAttribute("userList", userRepository.findAll(userBuilder, qUser.engName.asc()));
+            }
+            else {//부서로 검색
                 QAccount qUser = QAccount.account;
                 BooleanBuilder userBuilder = new BooleanBuilder();
                 userBuilder.and(qUser.department.eq(department));
+                userBuilder.and(qUser.userStatus.eq(UserStatus.ACTIVE));
+                userBuilder.or(qUser.department.in(departmentService.getChildDepartment(department)));
                 model.addAttribute("userList", userRepository.findAll(userBuilder, qUser.engName.asc()));
             }
         }

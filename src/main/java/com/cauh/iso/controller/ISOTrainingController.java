@@ -2,6 +2,7 @@ package com.cauh.iso.controller;
 
 import com.cauh.common.entity.Account;
 import com.cauh.common.entity.QAccount;
+import com.cauh.common.entity.constant.UserStatus;
 import com.cauh.common.repository.UserRepository;
 import com.cauh.common.security.annotation.CurrentUser;
 import com.cauh.iso.domain.*;
@@ -348,8 +349,9 @@ public class ISOTrainingController {
 //        userBuilder.and(qUser.empNo.isNotNull());
         userBuilder.and(qUser.training.eq(true));
         userBuilder.and(qUser.enabled.eq(true));
+        userBuilder.and(qUser.userStatus.eq(UserStatus.ACTIVE));
+
         Iterable<Account> users = userRepository.findAll(userBuilder, qUser.name.asc());
-        ;
 
         model.addAttribute("userMap", StreamSupport.stream(users.spliterator(), false)
                 .collect(Collectors.toMap(s -> Integer.toString(s.getId()), s -> s.getName())));

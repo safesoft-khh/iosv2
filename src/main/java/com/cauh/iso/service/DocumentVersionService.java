@@ -2,6 +2,7 @@ package com.cauh.iso.service;
 
 import com.cauh.common.entity.Account;
 import com.cauh.common.entity.QAccount;
+import com.cauh.common.entity.constant.UserStatus;
 import com.cauh.common.repository.UserRepository;
 import com.cauh.common.service.UserService;
 import com.cauh.iso.admin.domain.constant.SOPAction;
@@ -618,6 +619,8 @@ public class DocumentVersionService {
         builder.and(qUser.enabled.eq(true));
         builder.and(qUser.training.eq(true));
         builder.and(qUser.receiveEmail.eq(true));
+        builder.and(qUser.userStatus.eq(UserStatus.ACTIVE));
+
         Iterable<Account> iterable = userRepository.findAll(builder);
 
         Date currentDate = DateUtils.truncate(new Date());

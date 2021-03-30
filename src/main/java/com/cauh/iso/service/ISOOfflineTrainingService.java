@@ -4,6 +4,7 @@ import com.cauh.common.entity.Account;
 import com.cauh.common.entity.QAccount;
 import com.cauh.common.entity.QUserJobDescription;
 import com.cauh.common.entity.UserJobDescription;
+import com.cauh.common.entity.constant.UserStatus;
 import com.cauh.common.repository.UserJobDescriptionRepository;
 import com.cauh.common.repository.UserRepository;
 import com.cauh.iso.domain.*;
@@ -183,6 +184,8 @@ public class ISOOfflineTrainingService {
             QAccount qUser = QAccount.account;
             BooleanBuilder inBuilder = new BooleanBuilder();
             inBuilder.and(qUser.username.in(toUserList));
+            inBuilder.and(qUser.userStatus.eq(UserStatus.ACTIVE));
+
             Iterable<Account> iterable = userRepository.findAll(inBuilder);
 
             if(ObjectUtils.isEmpty(iterable) == false) {
@@ -195,6 +198,8 @@ public class ISOOfflineTrainingService {
                 uBuilder.and(qUser.id.in(ccUserIds));
                 uBuilder.and(qUser.enabled.eq(true));
                 uBuilder.and(qUser.receiveEmail.eq(true));
+                uBuilder.and(qUser.userStatus.eq(UserStatus.ACTIVE));
+
                 Iterable<Account> users = userRepository.findAll(uBuilder);
                 List<String> ccList = StreamSupport.stream(users.spliterator(), false).filter(a -> StringUtils.isEmpty(a.getEmail()) == false).map(a -> a.getEmail()).collect(Collectors.toList());
                 log.info("=> Off-line 등록 메일 to : {}, cc : {}", toList, ccList);
@@ -207,6 +212,7 @@ public class ISOOfflineTrainingService {
                     BooleanBuilder builder = new BooleanBuilder();
                     QAccount q = QAccount.account;
                     builder.and(q.id.in(userIds));
+                    builder.and(q.userStatus.eq(UserStatus.ACTIVE));
 
                     model.put("attendees", userRepository.findAll(builder));
                 }

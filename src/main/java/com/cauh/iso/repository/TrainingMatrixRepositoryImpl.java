@@ -2,6 +2,7 @@ package com.cauh.iso.repository;
 
 import com.cauh.common.entity.*;
 import com.cauh.common.entity.constant.JobDescriptionStatus;
+import com.cauh.common.entity.constant.UserStatus;
 import com.cauh.common.entity.constant.UserType;
 import com.cauh.common.repository.UserRepository;
 import com.cauh.iso.domain.*;
@@ -186,8 +187,9 @@ public class TrainingMatrixRepositoryImpl implements TrainingMatrixRepositoryCus
 
         BooleanBuilder builder = new BooleanBuilder();
         builder.and(qUser.enabled.eq(true));
-        builder.and(qUser.userType.eq(UserType.USER));
         builder.and(qUser.indate.isNotNull());
+        builder.and(qUser.userType.eq(UserType.USER));
+        builder.and(qUser.userStatus.eq(UserStatus.ACTIVE));
 
         if (!StringUtils.isEmpty(department)) {
             builder.and(qUser.department.eq(department));
@@ -235,10 +237,9 @@ public class TrainingMatrixRepositoryImpl implements TrainingMatrixRepositoryCus
         .where(builder)
         .where(completeStatus)
 
-        //TODO 한경훈 추가
-        .orderBy(qDocumentVersion.document.category.shortName.asc()) //2021-03-29 ShortName 올림차순
-        .orderBy(qDocumentVersion.document.docId.desc()) //2021-03-29 DOCID 내림차순
-
+        //TODO 한경훈 Update 예정
+        //.orderBy(qDocumentVersion.document.category.shortName.asc()) //2021-03-29 ShortName 올림차순
+        //.orderBy(qDocumentVersion.document.docId.desc()) //2021-03-29 DOCID 내림차순
         .orderBy(qDocumentVersion.effectiveDate.asc()); //2021-03-04 :: Effective가 임박한 순으로 조회 되어야 함.
 
 
@@ -443,6 +444,7 @@ public class TrainingMatrixRepositoryImpl implements TrainingMatrixRepositoryCus
         builder.and(qUser.enabled.eq(true));
         builder.and(qUser.indate.isNotNull());
         builder.and(qUser.userType.eq(UserType.USER));
+        builder.and(qUser.userStatus.eq(UserStatus.ACTIVE));
 
         if (!ObjectUtils.isEmpty(department)) {
             builder.and(qUser.department.eq(department));

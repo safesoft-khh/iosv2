@@ -1,6 +1,7 @@
 package com.cauh.iso.admin.controller;
 
 import com.cauh.common.entity.*;
+import com.cauh.common.entity.constant.UserStatus;
 import com.cauh.common.repository.SignatureRepository;
 import com.cauh.common.repository.UserRepository;
 import com.cauh.common.security.annotation.CurrentUser;
@@ -127,14 +128,22 @@ public class AdminISOTrainingController {
 
         if(!ObjectUtils.isEmpty(deptId)) {
             department = new Department(deptId);
-            department.setChildDepartments(departmentService.getChildDepartment(department));
-            model.addAttribute("teamList", department.getChildDepartments());
+            model.addAttribute("teamList", departmentService.getChildDepartment(department));
 
-            if (!ObjectUtils.isEmpty(teamId)) {
+            if (!ObjectUtils.isEmpty(teamId)) {//팀아이뒤가 있을 경우
+                QAccount qUser = QAccount.account;
                 department = new Department(teamId);
+                BooleanBuilder userBuilder = new BooleanBuilder();
+                userBuilder.and(qUser.department.eq(department));
+                userBuilder.and(qUser.userStatus.eq(UserStatus.ACTIVE));
+                model.addAttribute("userList", userRepository.findAll(userBuilder, qUser.engName.asc()));
+            }
+            else {//부서로 검색
                 QAccount qUser = QAccount.account;
                 BooleanBuilder userBuilder = new BooleanBuilder();
                 userBuilder.and(qUser.department.eq(department));
+                userBuilder.and(qUser.userStatus.eq(UserStatus.ACTIVE));
+                userBuilder.or(qUser.department.in(departmentService.getChildDepartment(department)));
                 model.addAttribute("userList", userRepository.findAll(userBuilder, qUser.engName.asc()));
             }
         }
