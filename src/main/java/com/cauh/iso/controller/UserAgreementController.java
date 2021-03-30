@@ -68,6 +68,9 @@ public class UserAgreementController {
     @Value("${site.company-kor-title}")
     private String siteCompanyKorTitle;
 
+    @Value("${form.name}")
+    private String formName;
+
     @GetMapping("/please-enter-your-access-code")
     public String auth() {
         return "common/auth";
@@ -123,6 +126,7 @@ public class UserAgreementController {
         model.addAttribute("imageLogo", imageLogo);
         model.addAttribute("siteCompanyKorTitle", siteCompanyTitle);
         model.addAttribute("isoTitle", isoTitle);
+        model.addAttribute("formName", formName);
 
         return "common/internalUserTermsOfUse";
     }

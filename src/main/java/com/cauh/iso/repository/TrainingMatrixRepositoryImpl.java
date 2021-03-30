@@ -237,11 +237,9 @@ public class TrainingMatrixRepositoryImpl implements TrainingMatrixRepositoryCus
         .where(builder)
         .where(completeStatus)
 
+        .orderBy(qDocumentVersion.effectiveDate.asc()) //2021-03-04 :: Effective가 임박한 순으로 조회 되어야 함.
         //TODO 한경훈 Update 예정
-        //.orderBy(qDocumentVersion.document.category.shortName.asc()) //2021-03-29 ShortName 올림차순
-        //.orderBy(qDocumentVersion.document.docId.desc()) //2021-03-29 DOCID 내림차순
-        .orderBy(qDocumentVersion.effectiveDate.asc()); //2021-03-04 :: Effective가 임박한 순으로 조회 되어야 함.
-
+        .orderBy(qDocumentVersion.document.docId.desc()); //2021-03-29 DOCID 내림차순
 
         return jpaQuery;
     }

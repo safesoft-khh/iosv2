@@ -39,18 +39,11 @@ public class LoginPostCheckInterceptor extends HandlerInterceptorAdapter {
             String uri = request.getRequestURI();
             log.debug("@URI : {}", uri);
 
-            //CASE 1. 개인정보 활용 동의 -> 해당 과정에서 Signature 등록 진행.
-            if (user.isAgreementCollectUse()) {
-                log.trace("@Username : {} Agreement to Collect Use 동의 처리 되어 있음.", user.getUsername());
-
-                //CASE 2. 기밀 유지 서약
-                if (!user.isConfidentialityPledge()) {
-                    log.info("@Username : {} Confidentiality-pledge 동의 기록 없음. 동의 페이지로 이동", user.getUsername());
-                    modelAndView.setViewName("redirect:/confidentiality-pledge");
-                }
+            if (user.isAgreementCollectUse() && user.isConfidentialityPledge()) {
+                log.trace("@Username : {} 개인정보 활용 동의 / 비밀 보장 서약 동의 처리 되어 있음.", user.getUsername());
             } else {
                 log.info("@Username : {} Agreement to Collect Use 동의 기록 없음. 동의 페이지로 이동", user.getUsername());
-                modelAndView.setViewName("redirect:/agreement-to-collect-and-use-personal-information");
+                modelAndView.setViewName("redirect:/internal-user-terms-of-use");
             }
         }
 

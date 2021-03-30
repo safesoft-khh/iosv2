@@ -85,6 +85,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
         registry.addInterceptor(themeChangeInterceptor());
 
+        //외부사용자 전용 인터셉터
         registry.addInterceptor(externalCustomerCheckInterceptor())
                 .addPathPatterns("/**")
                 .excludePathPatterns("/static/**", "/login", "/signUp/**", "/logout", "/error", "/expired", "/invalidSession", "/api/**", "/favicon.ico", "/ajax/**",
@@ -101,10 +102,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
                         "/password-change",
                         "/forgot-password",
                         "/denied",
-                        "/please-enter-your-access-code",
-                        "/agreement-to-collect-and-use-personal-information",
-                        "/non-disclosure-agreement-for-sop",
-                        "/confidentiality-pledge",
+                        "/internal-user-terms-of-use",
                         "/user/signature");
     }
 

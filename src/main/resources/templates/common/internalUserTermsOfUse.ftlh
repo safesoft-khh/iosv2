@@ -68,11 +68,11 @@
                 </div>
                 <div class="panel-body bg-gray" style="height:200px; overflow-y: scroll">
                     <div class="mar-top mar-btm text-bold">
-                        1. 본인은 개인정보보호법에 따라 “${siteCompanyKorTitle} ${isoTitle} SOP/RF" 접속을 위해<br>
+                        1. 본인은 개인정보보호법에 따라 “${siteCompanyKorTitle} ${isoTitle} SOP/${formName}" 접속을 위해<br>
                         &nbsp;&nbsp;&nbsp;&nbsp;개인정보(이름, 소속, 이메일, 직함/직위)를 제공하고, 시스템에 5년간 보관되며,<br>
                         &nbsp;&nbsp;&nbsp;&nbsp;${isoTitle}시스템 점검 및 관련 활동에 이용되는 것에 동의합니다.<br><br>
                         2. 본인은 개인정보의 수집 및 이용을 거부할 권리가 있지만, 개인정보 제공을 거부할 경우 <br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;"${siteCompanyKorTitle} ${isoTitle} SOP/RF"에 대한 접근이 금지될 것에 동의합니다.
+                        &nbsp;&nbsp;&nbsp;&nbsp;"${siteCompanyKorTitle} ${isoTitle} SOP/${formName}"에 대한 접근이 금지될 것에 동의합니다.
                     </div>
                 </div>
                 <div class="mar-btm text-center">
