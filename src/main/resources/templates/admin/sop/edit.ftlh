@@ -174,7 +174,7 @@
                 </div>
             <#else>
                 <div class="form-group">
-                    <label class="col-sm-3 control-label"> Document File(ENG)</label>
+                    <label class="col-sm-3 control-label">${formName} Document File(ENG)</label>
                     <div class="col-sm-9">
                         <#assign accept = '.xls,.xlsx,.doc,.docx,.hwp'/>
                         <@spring.formInput "documentVersion.uploadRfEngFile" "class='form-control' placeholder='${formName} Document File(ENG)' accept='${accept}'" "file"/>

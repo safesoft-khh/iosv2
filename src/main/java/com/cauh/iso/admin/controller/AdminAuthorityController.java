@@ -25,6 +25,7 @@ import com.querydsl.core.BooleanBuilder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -177,7 +178,9 @@ public class AdminAuthorityController {
 
         builder.and(qUser.enabled.eq(true));
         builder.and(qUser.userType.eq(UserType.USER));
-        builder.and(qUser.userStatus.eq(UserStatus.ACTIVE));
+        
+        //TODO 한경훈 수정
+        builder.and(qUser.userStatus.in(UserStatus.ACTIVE, UserStatus.SIGNUP_REQUEST));
 
         model.addAttribute("account", new Account());
         model.addAttribute("departments", departmentService.getParentDepartment());

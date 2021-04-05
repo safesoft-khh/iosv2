@@ -3,7 +3,6 @@
 
 <@pagination.bind auditList/>
 <div class="table-responsive">
-    ${formName}
     <table class="table table-hover table-bordered">
         <thead>
         <tr class="bg-gray-light">

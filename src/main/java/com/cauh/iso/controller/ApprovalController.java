@@ -141,7 +141,10 @@ public class ApprovalController {
                        @ModelAttribute("approval") Approval approval,
                        @RequestParam(value = "selectedId", required = false) String selectedId,
                        @RequestParam(value = "deselectedId", required = false) String deselectedId,
-                                       HttpServletRequest request) throws Exception {
+                                       HttpServletRequest request
+            , Model model) throws Exception {
+
+        model.addAttribute("formName", formName);
 
         approval.getRetirementApprovalForm().setSopIds(ServletRequestUtils.getStringParameters(request, "retirementApprovalForm.sopIds"));
         approval.getRetirementApprovalForm().setRfIds(ServletRequestUtils.getStringParameters(request, "retirementApprovalForm.rdIds"));
@@ -276,7 +279,9 @@ public class ApprovalController {
                            BindingResult result,
                            SessionStatus status,
                            @CurrentUser Account user, HttpServletRequest request,
-                       RedirectAttributes attributes) throws Exception {
+                       RedirectAttributes attributes, Model model) throws Exception {
+
+        model.addAttribute("formName", formName);
 
         /**
          * Choosen 컴포넌트 사용시 기존 전체 선택해제한 경우에도 이전의 값이 저장되는 이슈 보완 코드
@@ -340,6 +345,7 @@ public class ApprovalController {
         model.addAttribute("approvalView", approval);
         model.addAttribute("lineType", lineType);
         model.addAttribute("reportStatus", status);
+        model.addAttribute("formName", formName);
 
         return "approval/view";
     }

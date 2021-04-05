@@ -194,7 +194,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public Account signUpAccept(Account account, Account manager) {
         //가입 수락 - 가입 날짜 설정
-        account.setIndate(new Date());
+        //TODO 한경훈 추가 회원가입시 필수 입력 항목으로 빠짐
+        //account.setIndate(new Date());
         //가입 수락 - 계정 기한 설정
         LocalDate accountExpiredDate = LocalDate.of(9999, 12, 31);
         account.setAccountExpiredDate(Date.from(accountExpiredDate.atStartOfDay(ZoneId.systemDefault()).toInstant())); //9999-12-31 설정

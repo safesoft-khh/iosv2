@@ -326,6 +326,7 @@
                     <th class="text-center">팀</th>
                     <th class="text-center">이름</th>
                     <th class="text-center">생년월일</th>
+                    <th class="text-center">입사일</th>
                     <th class="text-center">연락처</th>
                     <th class="text-center">E-mail</th>
                     <th class="text-center">교육 진행</th>
@@ -343,6 +344,7 @@
                             <td class="text-center" style="vertical-align: middle;">${t.teamName!''}</td>
                             <td class="text-center" style="vertical-align: middle;">${t.name}</td>
                             <td class="text-center" style="vertical-align: middle;">${t.birthDate?has_content?then(t.birthDate?string('yyyy-MM-dd'), '')}</td>
+                            <td class="text-center" style="vertical-align: middle;">${t.birthDate?has_content?then(t.indate?string('yyyy-MM-dd'), '')}</td>
                             <td class="text-center" style="vertical-align: middle;">${t.phone!''}</td>
                             <td class="text-center" style="vertical-align: middle;">${t.email!''}</td>
                             <td class="text-center">

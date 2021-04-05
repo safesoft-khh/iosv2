@@ -1,4 +1,4 @@
-<#import "/spring.ftl" as spring />
+<#import "common/customSpring.ftl" as spring />
 <html>
 <head>
     <meta charset="UTF-8">
@@ -53,6 +53,19 @@
             }).on('hide.bs.modal', function (e) {
                 e.stopPropagation(); //datepicker가 close될 때, sign-up-modal까지의 hide.bs.modal Event의 전파를 막음.
             });
+
+            $("#indate").datepicker({
+                format: "yyyy-mm-dd",
+                todayBtn: "linked",
+                endDate: new Date(),
+                clearBtn: true,
+                autoclose: true,
+                todayHighlight: true,
+            }).on('hide.bs.modal', function (e) {
+                e.stopPropagation(); //datepicker가 close될 때, sign-up-modal까지의 hide.bs.modal Event의 전파를 막음.
+            });
+
+
 
             //JD select2 Setting
             $('#jdIds').select2({width : '100%'});
@@ -177,14 +190,22 @@
                             }
                         }
                     },
-                    birthDate: {
-                        message: '> The birthDate is not valid',
-                        validators: {
-                            notEmpty: {
-                                message: '> The birthDate is required'
-                            }
-                        }
-                    },
+                    // birthDate: {
+                    //     message: '> The birthDate is not valid',
+                    //     validators: {
+                    //         notEmpty: {
+                    //             message: '> The birthDate is required'
+                    //         }
+                    //     }
+                    // },
+                    // indate: {
+                    //     message: '> The Emplyoee Date is not valid',
+                    //     validators: {
+                    //         notEmpty: {
+                    //             message: '> The Emplyoee Date is required'
+                    //         }
+                    //     }
+                    // },
                     email: {
                         validators: {
                             remote: {
@@ -227,6 +248,7 @@
                 // data.element --> The field element
                 var $parent = data.element.parents('.form-group');
 
+                console.log($parent);
                 // Remove the has-success class
                 $parent.removeClass('has-success');
             });
@@ -253,7 +275,7 @@
                         <div class="form-group">
                             <label class="control-label" for="username">ID* : </label>
                             <@spring.formInput "account.username" "class='form-control'" />
-                            <@spring.showErrors "" "color:red;"/>
+                            <@spring.showErrors "" "color:#a94442; font-wieght: 700;"/>
                         </div>
                     </div>
 
@@ -261,7 +283,7 @@
                         <div class="form-group">
                             <label class="control-label" for="email">E-mail* : </label>
                             <@spring.formInput "account.email" "class='form-control'" "email"/>
-                            <@spring.showErrors "" "color:red;"/>
+                            <@spring.showErrors "" "color:#a94442; font-wieght: 700;"/>
                         </div>
                     </div>
                 </div>
@@ -271,7 +293,7 @@
                         <div class="form-group">
                             <label class="control-label" for="password">Password* : </label>
                             <@spring.formInput "account.password" "class='form-control'" "password" />
-                            <@spring.showErrors "" "color:red;"/>
+                            <@spring.showErrors "" "color:#a94442; font-wieght: 700;"/>
                         </div>
                     </div>
 
@@ -288,7 +310,7 @@
                         <div class="form-group">
                             <label class="control-label" for="name">Name* : </label>
                             <@spring.formInput "account.name" "class='form-control'" />
-                            <@spring.showErrors "" "color:red;"/>
+                            <@spring.showErrors "" "color:#a94442; font-wieght: 700;"/>
                         </div>
                     </div>
 
@@ -303,16 +325,16 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label class="control-label" for="email">Birth Date* : </label>
+                            <label class="control-label" for="birthDate">Birth Date* : </label>
                             <@spring.formInput "account.birthDate" "class='form-control'" />
-                            <@spring.showErrors "" "color:red;"/>
+                            <@spring.showErrors "" "color:#a94442; font-wieght: 700;"/>
                         </div>
                     </div>
                     <div class="col-sm-6">
                         <div class="form-group">
                             <label class="control-label" for="phone">Phone : </label>
                             <@spring.formInput "account.phone" "class='form-control'" />
-                            <@spring.showErrors "" "color:red;"/>
+                            <@spring.showErrors "" "color:#a94442; font-wieght: 700;"/>
                         </div>
                     </div>
                 </div>
@@ -338,10 +360,21 @@
                         <div class="form-group">
                             <label class="control-label">ROLE* : </label>
                             <@spring.formMultiSelect "account.jdIds" jobDescriptionMap "class='form-control'"/>
-                            <@spring.showErrors "" "color:red;"/>
+                            <@spring.showErrors "" "color:#a94442; font-wieght: 700;"/>
                         </div>
                     </div>
                 </div>
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="control-label" for="indate">Employee Date* : </label>
+                            <@spring.formInput "account.indate" "class='form-control'" />
+                            <@spring.showErrors "" "color:#a94442; font-wieght: 700;"/>
+                        </div>
+                    </div>
+                </div>
+
             </div>
             <!--Modal footer-->
             <div class="panel-footer text-right">

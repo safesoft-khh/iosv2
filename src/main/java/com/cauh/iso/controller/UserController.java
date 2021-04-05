@@ -14,6 +14,7 @@ import com.cauh.iso.domain.UserPasswordDTO;
 import com.cauh.iso.service.JDService;
 import com.cauh.iso.service.JobDescriptionService;
 import com.cauh.iso.service.UserJobDescriptionChangeLogService;
+import com.cauh.iso.validator.SignUpValidator;
 import com.cauh.iso.validator.UserJobDescriptionChangeLogValidator;
 import com.cauh.iso.validator.UserPasswordChangeValidator;
 import com.cauh.iso.validator.UserProfileValidator;
@@ -59,6 +60,7 @@ public class UserController {
     private final UserJobDescriptionChangeLogValidator userJobDescriptionChangeLogValidator;
     private final UserProfileValidator userProfileValidator;
     private final UserPasswordChangeValidator userPasswordChangeValidator;
+    private final SignUpValidator signUpValidator;
 
     private final PasswordEncoder passwordEncoder;
 
@@ -236,8 +238,21 @@ public class UserController {
     @PostMapping("/signUp")
     @Transactional
     public String signUpRequest(@ModelAttribute("account")Account account,
-                                RedirectAttributes attributes, BindingResult result) {
+                                RedirectAttributes attributes, SessionStatus status, Model model, BindingResult result) {
         log.info("@Sign Up Request : {}", account.getUsername());
+
+        signUpValidator.validate(account, result);
+
+        if(result.hasErrors()) {
+            log.error("회원가입 Error : {}", result.getAllErrors());
+
+            //2021-03-16 YSH :: 설정된 Image Logo 사용
+            model.addAttribute("imageLogo", imageLogo);
+            model.addAttribute("jobDescriptionMap", jdService.getJDMap());
+            model.addAttribute("departments", departmentService.getParentDepartment());
+
+            return "/signup";
+        }
 
         Optional<Account> user = userRepository.findByUsername(account.getUsername());
 
@@ -253,6 +268,10 @@ public class UserController {
             attributes.addFlashAttribute("messageType", "success");
             attributes.addFlashAttribute("message", "Sign up request is success");
         }
+
+        //Session 정보 초기화.
+        status.setComplete();
+
         return "redirect:/login";
     }
 

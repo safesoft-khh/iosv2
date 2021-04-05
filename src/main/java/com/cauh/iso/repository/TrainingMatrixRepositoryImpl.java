@@ -155,11 +155,47 @@ public class TrainingMatrixRepositoryImpl implements TrainingMatrixRepositoryCus
                                             .and(qDocumentVersion.effectiveDate.loe(DateUtils.addDay(user.getIndate(), 56))))
                     ))
                     .orderBy(trainingMatrix.documentVersion.effectiveDate.asc()) // 2021-03-04 :: 요구사항 내 SOP Effective Date 임박 순으로 조회로 명시.
+                    .orderBy(trainingMatrix.documentVersion.document.docId.desc()) //2021-03-29 DOCID 내림차순
                     .offset(pageable.getOffset())
                     .limit(pageable.getPageSize())
                     .fetchResults();
 
-            return new PageImpl<>(results.getResults(), pageable, results.getTotal());
+            Integer size = queryFactory
+                    .selectDistinct(Projections.constructor(MyTraining.class,
+                            trainingMatrix.documentVersion.document,
+                            trainingMatrix.documentVersion,
+                            qTrainingPeriod,
+                            qTrainingLog,
+                            qTrainingPeriod.startDate,
+                            qTrainingPeriod.endDate)
+                    )
+                    .from(trainingMatrix)
+                    .where(builder)
+                    .join(qTrainingPeriod)
+                    .on(trainingMatrix.documentVersion.id.eq(qTrainingPeriod.documentVersion.id)
+                            .and(qTrainingPeriod.trainingType.eq(TrainingType.SELF))
+                            .and(qTrainingPeriod.startDate.loe(new Date()))
+                            .or(trainingMatrix.documentVersion.id.eq(qTrainingPeriod.documentVersion.id)
+                                    .and(qTrainingPeriod.trainingType.eq(TrainingType.REFRESH))
+                                    .and(qTrainingPeriod.startDate.goe(user.getIndate())))
+                    )
+                    .leftJoin(qTrainingLog)
+                    .on(qTrainingPeriod.id.eq(qTrainingLog.trainingPeriod.id)
+                            .and(qTrainingLog.user.id.eq(user.getId()))
+                            .and(qTrainingLog.reportStatus.ne(DeviationReportStatus.REJECTED)))
+                    .where(trainingMatrix.documentVersion.document.type.eq(DocumentType.SOP))
+                    .where(trainingMatrix.documentVersion.status.in(DocumentStatus.EFFECTIVE, DocumentStatus.APPROVED))
+                    .where(trainingMatrix.documentVersion.id.notIn(
+                            JPAExpressions.selectDistinct(qDocumentVersion.parentVersion.id)
+                                    .from(qDocumentVersion)
+                                    .where(qDocumentVersion.document.type.eq(DocumentType.SOP)
+                                            .and(qDocumentVersion.status.eq(DocumentStatus.APPROVED))
+                                            .and(qDocumentVersion.parentVersion.isNotNull())
+                                            .and(qDocumentVersion.effectiveDate.loe(DateUtils.addDay(user.getIndate(), 56))))
+                    ))
+                    .fetch().size();
+
+            return new PageImpl<>(results.getResults(), pageable, size);
         } else {
             log.info("@MyTraining(Mandatory) : {}", user.getUsername());
             BooleanBuilder docStatus = new BooleanBuilder();

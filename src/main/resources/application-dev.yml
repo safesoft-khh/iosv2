@@ -39,7 +39,7 @@ spring:
     driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
 #    url: jdbc:sqlserver://192.168.9.183:20170;DatabaseName=dtnsm_prod
 #    url: jdbc:sqlserver://220.117.192.209:20170;DatabaseName=cauh_dev_20201106
-    url: jdbc:sqlserver://220.117.192.209:20170;DatabaseName=cauh_dev
+    url: jdbc:sqlserver://192.168.9.183:20170;DatabaseName=cauh_dev
     username: sa
     password: safe123!@#
 

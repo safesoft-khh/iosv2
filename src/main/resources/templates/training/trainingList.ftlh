@@ -46,6 +46,7 @@
                 <#list trainingMatrix.content as t>
                     <tr<#if bgClass?has_content> class="${bgClass}"</#if>>
                         <td class="text-center">${(trainingMatrix.totalElements - (trainingMatrix.size * trainingMatrix.number)) - t?index}</td>
+<#--                        <td class="text-center">${(trainingMatrix.size * trainingMatrix.number) + t?index + 1}</td>-->
                         <td class="text-center">${t.document.docId}</td>
                         <td>${t.document.title}<#if t.trainingPeriod.trainingType == 'REFRESH' || t.trainingPeriod.trainingType == 'RE_TRAINING'> <span class="badge badge-warning">${t.trainingPeriod.trainingType.label}</span></#if></td>
                         <td class="text-center">${t.documentVersion.version}</td>

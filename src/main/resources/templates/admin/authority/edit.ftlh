@@ -12,6 +12,7 @@
     <script>
         $(document).ready(function() {
             $("#birthDate").datepicker({format:'yyyy-mm-dd', autoclose:true, clearBtn:true, todayBtn: "linked", todayHighlight: true});
+            $("#indate").datepicker({format:'yyyy-mm-dd', autoclose:true, clearBtn:true, todayBtn: "linked", todayHighlight: true});
 
             //초기 화면 전환시 세팅
             departmentSelect($("#deptSelect").val());
@@ -117,6 +118,13 @@
                 <label class="col-sm-3 control-label">생년월일</label>
                 <div class="col-sm-9">
                     <@spring.formInput "account.birthDate" "class='form-control'"/>
+                    <@spring.showErrors "" "color:red;"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">입사일</label>
+                <div class="col-sm-9">
+                    <@spring.formInput "account.indate" "class='form-control'"/>
                     <@spring.showErrors "" "color:red;"/>
                 </div>
             </div>

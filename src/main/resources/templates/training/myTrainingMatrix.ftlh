@@ -21,7 +21,7 @@
     <div class="panel-body">
         <#if jdSize == 0>
         <div class="text-danger">
-            <i class="fa fa-exclamation-circle"> JD가 지정 되어 있지 않습니다. 관리자에게 문의해 주세요.</i>
+            <i class="fa fa-exclamation-circle"> ROLE이 지정 되어 있지 않습니다. 관리자에게 문의해 주세요.</i>
         </div>
         </#if>
         <div class="table-responsive">
