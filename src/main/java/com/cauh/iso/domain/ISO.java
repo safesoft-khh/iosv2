@@ -31,7 +31,6 @@ import java.util.Optional;
 public class ISO extends BaseEntity implements Serializable {
     private static final long serialVersionUID = 765987308708693720L;
     //=======게시글 속성========
-
     @Id
     @Column(name = "id", length = 40)
     private String id;
@@ -58,6 +57,10 @@ public class ISO extends BaseEntity implements Serializable {
 
     //========================================
 
+    @ManyToOne
+    @JoinColumn(name = "category_id", referencedColumnName = "id")
+    private ISOCategory category;
+
     //ISO 첨부 파일 (Training시, 강의 파일이 됨)
     @OneToMany(mappedBy = "iso")
     private List<ISOAttachFile> attachFiles;
@@ -72,12 +75,14 @@ public class ISO extends BaseEntity implements Serializable {
     @ColumnDefault("0")
     private boolean training;
 
+
+
 //    @ColumnDefault("0")
 //    private boolean certification;
 //
 //    @Column(length = 20)
 //    private String certificationHead;
-    
+
     //정답 개수
     private Integer correctCount;
 

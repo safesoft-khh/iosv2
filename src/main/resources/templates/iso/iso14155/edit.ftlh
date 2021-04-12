@@ -125,6 +125,13 @@
         <div class="col-sm-9">
             <div class="panel">
                 <div class="panel-body">
+                    <div class="mar-btm pad-btm bord-btm">
+                        <h1 class="page-header text-overflow">
+                            <span class="label label-pink">Category</span>
+                            ${categoryCode}
+                        </h1>
+                    </div>
+
                     <@spring.formHiddenInput "iso.id"/>
                     <!-- Edit Case -->
                     <#assign disabled = iso.id?has_content?then('disabled', '') />
@@ -132,6 +139,17 @@
                         <@spring.formCheckbox "iso.training" "class='form-checkbox' ${disabled}" />
                         <label class="control-label" for="training">Training 등록</label>
                     </div>
+
+<#--                    <#if categoryList?has_content>-->
+<#--                        Category-->
+<#--                        <div class="box-inline mar-btm">-->
+<#--                            <select name="categoryCode" id="categoryCode" class="form-control">-->
+<#--                                <#list categoryList as category>-->
+<#--                                    <option value="${category.getId()}">${category.getName()}</option>-->
+<#--                                </#list>-->
+<#--                            </select>-->
+<#--                        </div>-->
+<#--                    </#if>-->
 
                     <!-- Edit인데 training 체크를 안한 경우일때만 예외, -->
                     <#if !(iso.id?has_content && iso.training == false) >
@@ -151,6 +169,7 @@
                                     </div>
                                 </div>
                             </div>
+
                             <div class="row">
                                 <div class="col-lg-3 form-group">
                                     <label class="control-label" for="correctCount">합격 문항 개수</label>

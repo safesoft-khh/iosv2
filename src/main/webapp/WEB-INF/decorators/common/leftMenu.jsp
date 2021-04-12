@@ -6,6 +6,11 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
+<%@ page import="com.cauh.iso.utils.MenuUtil" %>
+<%@ page import="com.cauh.iso.domain.ISOCategory" %>
+<%@ page import="java.util.List" %>
+
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -51,7 +56,18 @@
         </a>
         <!--Submenu-->
         <ul class="collapse" aria-expanded="false">
+<%--            <%--%>
+<%--                List<ISOCategory> list = MenuUtil.getISOCategory();--%>
+<%--                for(ISOCategory category:list){--%>
+<%--            %>--%>
+<%--            <li><a href="/iso?categoryCode=<%=category.getShortName()%>"><%=category.getShortName()%></a></li>--%>
+<%--            <%--%>
+<%--                }--%>
+<%--            %>--%>
             <li><a href="/iso-14155">${isoTitle}</a></li>
+            <sec:authorize access="hasAnyAuthority('ADMIN')">
+                <li><a href="/iso/category">Category</a></li>
+            </sec:authorize>
         </ul>
     </li>
     <li>
@@ -112,9 +128,9 @@
             <li>
                 <a href="/approval/box/requester" aria-expanded="false">기안함</a>
             </li>
-<%--            <li>--%>
-<%--                <a href="/approval/box/reviewer" aria-expanded="false">검토함</a>--%>
-<%--            </li>--%>
+            <%--            <li>--%>
+            <%--                <a href="/approval/box/reviewer" aria-expanded="false">검토함</a>--%>
+            <%--            </li>--%>
             <li>
                 <a href="/approval/box/approver" aria-expanded="false">승인함</a>
             </li>

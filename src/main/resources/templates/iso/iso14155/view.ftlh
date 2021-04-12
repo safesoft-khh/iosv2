@@ -213,6 +213,15 @@
                             <a class="btn btn-default" href="javascript:goToURL('/iso-14155/${viewIso.training?then('training', 'board')}');">
                                 <i class="psi-list-view"></i> 목록
                             </a>
+<#--                            <#if categoryCode?has_content>-->
+<#--                                <a class="btn btn-default" href="javascript:goToURL('/iso-14155/${viewIso.training?then('training', 'board')}?categoryCode=${categoryCode}');">-->
+<#--                                    <i class="psi-list-view"></i> 목록-->
+<#--                                </a>-->
+<#--                            <#else>-->
+<#--                                <a class="btn btn-default" href="javascript:goToURL('/iso-14155/${viewIso.training?then('training', 'board')}');">-->
+<#--                                    <i class="psi-list-view"></i> 목록-->
+<#--                                </a>-->
+<#--                            </#if>-->
                         </div>
                     </div>
                 </div>

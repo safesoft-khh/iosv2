@@ -4,15 +4,19 @@ import com.cauh.common.entity.Account;
 import com.cauh.common.security.annotation.CurrentUser;
 import com.cauh.common.service.UserService;
 import com.cauh.iso.domain.*;
+import com.cauh.iso.domain.QDocument;
+import com.cauh.iso.domain.QISO;
 import com.cauh.iso.domain.constant.*;
 import com.cauh.iso.security.annotation.IsAdmin;
 import com.cauh.iso.service.*;
 import com.cauh.iso.validator.ISOValidator;
 import com.cauh.iso.validator.QuizValidator;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.groupdocs.conversion.internal.c.a.s.internal.mw.Ca;
 import com.querydsl.core.BooleanBuilder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.annotations.Param;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -64,20 +68,33 @@ public class ISOController {
     private final FileStorageService fileStorageService;
     private final UserService userService;
     private final QuizValidator quizValidator;
+    private final ISOCategoryService isoCategoryService;
+
+//    private String categoryCode;
 
     @GetMapping("/iso-14155")
     public String ISOList(){
         return "redirect:/iso-14155/board";
     }
 
-    @GetMapping("/iso-14155/board")
-    public String ISOBoardList(@PageableDefault(sort = {"createdDate"}, direction = Sort.Direction.DESC, size = 15) Pageable pageable,
-                          @CurrentUser Account user, Model model) {
+    @GetMapping( "/iso-14155/board")
+    public String ISOBoardList(@RequestParam(value = "categoryCode", required = false) String categoryCode,
+                               @PageableDefault(sort = {"createdDate"}, direction = Sort.Direction.DESC, size = 15) Pageable pageable,
+                               @CurrentUser Account user, Model model) {
         QISO qISO = QISO.iSO;
         BooleanBuilder builder = new BooleanBuilder();
         builder.and(qISO.deleted.eq(false));
         builder.and(qISO.training.eq(false));
 
+        if(StringUtils.isEmpty(categoryCode) == false) {
+            model.addAttribute("categoryCode", categoryCode);
+            //TODO ISO
+            ISOCategory isoCategory = isoCategoryService.findByShortName(categoryCode).get();
+            builder.and(qISO.category.eq(isoCategory));
+        }
+        else
+            model.addAttribute("categoryCode", "");
+
         //공지사항 리스트
         model.addAttribute("isoList", isoService.getPage(builder, pageable));
 
@@ -85,20 +102,34 @@ public class ISOController {
         Date today = new Date(System.currentTimeMillis());
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         builder.and(qISO.topViewEndDate.goe(Date.valueOf(format.format(today))));
-        model.addAttribute("topISOList", isoService.getTopISOs(builder));
+
+        Iterable<ISO> topISOs = isoService.getTopISOs(builder);
+        model.addAttribute("topISOList", topISOs);
 
 //        Optional<ISOTrainingMatrixFile> optionalTrainingMatrixFile = isotrainingMatrixService.findFirstByOrderByIdDesc();
 //        model.addAttribute("isoTrainingMatrixFile", optionalTrainingMatrixFile.isPresent() ? optionalTrainingMatrixFile.get() : null);
+
+        List<ISOCategory> categoryList = isoCategoryService.getCategoryList();
+        model.addAttribute("categoryList", categoryList);
 
         return "iso/iso14155/boardList";
     }
 
     @GetMapping("/iso-14155/training")
-    public String ISOTrainingList(@PageableDefault(sort = {"createdDate"}, direction = Sort.Direction.DESC, size = 15) Pageable pageable, Model model) {
+    public String ISOTrainingList(@RequestParam(value = "categoryCode", required = false) String categoryCode,
+                                  @PageableDefault(sort = {"createdDate"}, direction = Sort.Direction.DESC, size = 15) Pageable pageable, Model model) {
         QISO qISO = QISO.iSO;
         BooleanBuilder builder = new BooleanBuilder();
         builder.and(qISO.deleted.eq(false));
         builder.and(qISO.training.eq(true));
+        if(StringUtils.isEmpty(categoryCode) == false) {
+            model.addAttribute("categoryCode", categoryCode);
+            //TODO ISO
+            ISOCategory isoCategory = isoCategoryService.findByShortName(categoryCode).get();
+            builder.and(qISO.category.eq(isoCategory));
+        }
+        else
+            model.addAttribute("categoryCode", "");
 
         //공지사항 리스트
         model.addAttribute("isoList", isoService.getPage(builder, pageable));
@@ -109,12 +140,18 @@ public class ISOController {
         builder.and(qISO.topViewEndDate.goe(Date.valueOf(format.format(today))));
         model.addAttribute("topISOList", isoService.getTopISOs(builder));
 
+        List<ISOCategory> categoryList = isoCategoryService.getCategoryList();
+        model.addAttribute("categoryList", categoryList);
+
         return "iso/iso14155/trainingList";
     }
 
     @IsAdmin
-    @GetMapping("/iso-14155/new")
-    public String newISO(Model model, @RequestParam(value = "type", required = false) String type) {
+    @GetMapping("/iso-14155/{type}/new")
+    public String newISO(Model model,
+                         @RequestParam(value = "categoryCode", required = false) String categoryCode,
+                         @PathVariable("type") String type,
+                         RedirectAttributes attributes) {
         ISO iso = new ISO();
         if(!StringUtils.isEmpty(type) && type.equals("training")) {
             iso.setTraining(true);
@@ -124,12 +161,28 @@ public class ISOController {
         model.addAttribute("userMap", userService.getUserMap());
         model.addAttribute("iso", iso);
 
+        List<ISOCategory> categoryList = isoCategoryService.getCategoryList();
+        model.addAttribute("categoryList", categoryList);
+
+        if(categoryList.isEmpty())
+        {
+            attributes.addFlashAttribute("message", "존재하지 않는 게시물 입니다.");
+            return "redirect:/iso-14155/board";
+        }
+
+        if(categoryCode.isEmpty())      model.addAttribute("categoryCode", "");
+        else                            model.addAttribute("categoryCode", categoryCode);
+//        ISOCategory category = isoCategoryService.findByShortName(categoryCode).get();
+//        model.addAttribute("category", category);
+
         return "iso/iso14155/edit";
     }
 
     @IsAdmin
     @GetMapping("/iso-14155/{isoId}/edit")
-    public String isoEdit(@PathVariable("isoId") String isoId, Model model, RedirectAttributes attributes) {
+    public String isoEdit(@RequestParam(value = "categoryCode", required = false) String categoryCode,
+                          @PathVariable("isoId") String isoId,
+                          Model model, RedirectAttributes attributes) {
         Optional<ISO> isoOptional = isoService.getISO(isoId);
         if (isoOptional.isPresent()) {
 
@@ -150,32 +203,56 @@ public class ISOController {
 
             model.addAttribute("iso", iso);
             model.addAttribute("userMap", userService.getUserMap());
+            model.addAttribute("categoryCode", categoryCode);
         } else {
             attributes.addFlashAttribute("message", "존재하지 않는 게시물 입니다.");
-            return "redirect:/iso-14155";
+            return "redirect:/iso?categoryCode="+categoryCode;
         }
         return "iso/iso14155/edit";
     }
 
     @IsAdmin
     @Transactional
-    @PostMapping({"/iso-14155/new", "/iso-14155/{isoId}/edit"})
-    public String saveISO(@PathVariable(value = "isoId", required = false) String isoId,
+    @PostMapping({"/iso-14155/{type}/new", "/iso-14155/{isoId}/edit"})
+    public String saveISO(
+                          @RequestParam(value = "categoryCode", required = false) String categoryCode,
+                          @PathVariable(value = "type", required = false) String type,
+                          @PathVariable(value = "isoId", required = false) String isoId,
                           @ModelAttribute("iso") ISO iso,
                           @RequestParam(value = "uploadingFile") MultipartFile uploadingFile,
                           BindingResult bindingResult, SessionStatus sessionStatus,
                           RedirectAttributes attributes, Model model,
                           HttpServletRequest request) {
 
+        Optional<ISOCategory> ca = isoCategoryService.findByShortName(categoryCode);
+        if(ca.isEmpty())
+        {
+            List<ISOCategory> categoryList = isoCategoryService.getCategoryList();
+            model.addAttribute("categoryList", categoryList);
+            model.addAttribute("categoryCode", categoryCode);
+
+            model.addAttribute("userMap", userService.getUserMap());
+            attributes.addFlashAttribute("message", "Catetory를 선택해 주세요.");
+            return "iso/iso14155/edit";
+        }
+
         //업로드 진행할 파일의 이름을 넣음.
         iso.setUploadFileName(uploadingFile.getOriginalFilename());
         isoValidator.validate(iso, bindingResult);
 
         if (bindingResult.hasErrors()) {
+            List<ISOCategory> categoryList = isoCategoryService.getCategoryList();
+            model.addAttribute("categoryList", categoryList);
+            model.addAttribute("categoryCode", categoryCode);
+
             model.addAttribute("userMap", userService.getUserMap());
             return "iso/iso14155/edit";
         }
 
+        ISOCategory isoCategory = isoCategoryService.findByShortName(categoryCode).get();
+
+        //TODO HKH
+        iso.setCategory(isoCategory);
         iso.setPostStatus(PostStatus.NONE);
         iso.setIsoType(ISOType.ISO_14155);
         ISO savedISO = isoService.saveISO(iso, uploadingFile);
@@ -193,7 +270,10 @@ public class ISOController {
     }
 
     @GetMapping("/iso-14155/{isoId}")
-    public String isoView(@PageableDefault(sort = {"createdDate"}, direction = Sort.Direction.DESC, size = 15) Pageable pageable, @PathVariable("isoId") String isoId, Model model, RedirectAttributes attributes) {
+    public String isoView(
+            @RequestParam(value = "categoryCode", required = false) String categoryCode,
+            @PageableDefault(sort = {"createdDate"}, direction = Sort.Direction.DESC, size = 15) Pageable pageable,
+            @PathVariable("isoId") String isoId, Model model, RedirectAttributes attributes) {
         Optional<ISO> isoOptional = isoService.getISO(isoId);
         if (isoOptional.isPresent()) {
             ISO iso = isoOptional.get();
@@ -218,6 +298,8 @@ public class ISOController {
             attributes.addFlashAttribute("message", "존재하지 않는 ISO 게시물 입니다.");
             return "redirect:/iso-14155";
         }
+
+        //model.addAttribute("categoryCode", categoryCode);
         return "iso/iso14155/view";
     }
 
@@ -388,7 +470,7 @@ public class ISOController {
                 model.addAttribute("message", "최소 문항 개수는 25개 입니다.");
                 return "iso/iso14155/quiz";
             }
-            
+
             String removeValue = ServletRequestUtils.getStringParameter(request, "removeQuiz");
             quiz.getQuizQuestions().remove(Integer.parseInt(removeValue));
             return "iso/iso14155/quiz";
@@ -600,7 +682,7 @@ public class ISOController {
                        HttpServletRequest request, HttpServletResponse response) throws Exception {
         String fileName = isoId + "-" + page + ".jpg";
         log.info("FileName : {}", fileName);
-        
+
         //ISO 접속 기록 저장
         isoAccessLogService.save(isoId, DocumentAccessType.TRAINING);
         Resource resource = fileStorageService.loadFileAsResource(fileName);
